@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi - Emotica</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="landing.html" class="navbar-logo">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="8" width="40" height="28" rx="14" fill="#7F1DFF"/>
+                    <ellipse cx="24" cy="22" rx="16" ry="12" fill="#fff"/>
+                    <ellipse cx="18" cy="22" rx="2.5" ry="2.5" fill="#7F1DFF"/>
+                    <ellipse cx="30" cy="22" rx="2.5" ry="2.5" fill="#7F1DFF"/>
+                    <path d="M18 27c2.5 2 7.5 2 10 0" stroke="#7F1DFF" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Emotica
+            </a>
+            <div class="navbar-menu" id="navbarMenu">
+                <a href="landing.html" class="navbar-link">Home</a>
+                <a href="dashboard.html" class="navbar-link">Dashboard</a>
+                <a href="history.html" class="navbar-link">Riwayat</a>
+                <a href="#about" class="navbar-link">Tentang</a>
+            </div>
+            <div class="navbar-actions" id="navbarActions">
+                <button class="navbar-btn" id="navbarLoginBtn">Login / Register</button>
+            </div>
+            <button class="navbar-hamburger" id="navbarHamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+    <div class="main-content">
+        <div class="logo" style="display:none"></div>
+        <!-- SVG Illustration: Registration -->
+        <svg class="register-svg" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="90" cy="110" rx="80" ry="10" fill="#7f1dff22"/>
+            <rect x="40" y="30" width="100" height="50" rx="16" fill="#fff" fill-opacity="0.08" stroke="#a259ff" stroke-width="3"/>
+            <circle cx="90" cy="55" r="16" fill="#a259ff"/>
+            <rect x="75" y="75" width="30" height="10" rx="5" fill="#fff" fill-opacity="0.7"/>
+            <rect x="80" y="40" width="20" height="8" rx="3" fill="#fff" fill-opacity="0.7"/>
+        </svg>
+        <div class="neon-card w-full max-w-md p-8 flex flex-col items-center">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Registrasi</h2>
+            <form id="registerForm" class="w-full flex flex-col">
+                <label for="name" class="text-gray-300 text-sm font-bold mb-2 text-left">Nama</label>
+                <input type="text" id="name" placeholder="Nama" class="neon-input" required>
+                <label for="email" class="text-gray-300 text-sm font-bold mb-2 text-left">Email</label>
+                <input type="email" id="email" placeholder="Email" class="neon-input" required>
+                <label for="password" class="text-gray-300 text-sm font-bold mb-2 text-left">Password</label>
+                <input type="password" id="password" placeholder="Password" class="neon-input" required>
+                <button type="submit" class="neon-btn mt-2">Daftar</button>
+            </form>
+            <p class="text-gray-400 mt-4">Sudah punya akun? <a href="login.html" id="loginLink" class="text-purple-400 hover:underline">Login</a></p>
+        </div>
+    </div>
+    <script>
+        // Navbar hamburger logic
+        const navbarHamburger = document.getElementById('navbarHamburger');
+        const navbarMenu = document.getElementById('navbarMenu');
+        navbarHamburger.addEventListener('click', () => {
+            navbarMenu.classList.toggle('open');
+        });
+        // Navbar login/logout logic
+        const navbarLoginBtn = document.getElementById('navbarLoginBtn');
+        function updateNavbarAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn) {
+                navbarLoginBtn.textContent = 'Logout';
+                navbarLoginBtn.onclick = () => {
+                    localStorage.removeItem('isLoggedIn');
+                    window.location.href = 'landing.html';
+                };
+            } else {
+                navbarLoginBtn.textContent = 'Login / Register';
+                navbarLoginBtn.onclick = () => {
+                    window.location.href = 'login.html';
+                };
+            }
+        }
+        updateNavbarAuth();
+    </script>
+    <script>
+        // Script khusus register
+        const registerForm = document.getElementById('registerForm');
+        const loginLink = document.getElementById('loginLink');
+        registerForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            // Simulasi registrasi sukses
+            localStorage.setItem('isLoggedIn', 'true');
+            window.location.href = 'dashboard.html';
+        });
+        loginLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html> 

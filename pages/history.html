@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat - Emotica</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="landing.html" class="navbar-logo">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="8" width="40" height="28" rx="14" fill="#7F1DFF"/>
+                    <ellipse cx="24" cy="22" rx="16" ry="12" fill="#fff"/>
+                    <ellipse cx="18" cy="22" rx="2.5" ry="2.5" fill="#7F1DFF"/>
+                    <ellipse cx="30" cy="22" rx="2.5" ry="2.5" fill="#7F1DFF"/>
+                    <path d="M18 27c2.5 2 7.5 2 10 0" stroke="#7F1DFF" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Emotica
+            </a>
+            <div class="navbar-menu" id="navbarMenu">
+                <a href="landing.html" class="navbar-link">Home</a>
+                <a href="dashboard.html" class="navbar-link">Dashboard</a>
+                <a href="history.html" class="navbar-link">Riwayat</a>
+                <a href="#about" class="navbar-link">Tentang</a>
+            </div>
+            <div class="navbar-actions" id="navbarActions">
+                <button class="navbar-btn" id="navbarLoginBtn">Login / Register</button>
+            </div>
+            <button class="navbar-hamburger" id="navbarHamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+    <div class="main-content">
+        <div class="logo" style="display:none"></div>
+        <svg class="history-svg" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="90" cy="110" rx="80" ry="10" fill="#7f1dff22"/>
+            <rect x="40" y="30" width="100" height="50" rx="16" fill="#fff" fill-opacity="0.08" stroke="#a259ff" stroke-width="3"/>
+            <rect x="60" y="50" width="60" height="10" rx="5" fill="#a259ff"/>
+            <rect x="60" y="65" width="60" height="8" rx="4" fill="#fff" fill-opacity="0.7"/>
+            <rect x="60" y="40" width="60" height="6" rx="3" fill="#fff" fill-opacity="0.7"/>
+        </svg>
+        <div class="neon-card w-full max-w-2xl p-10 flex flex-col items-center">
+            <div class="header">
+                <h2>Riwayat Analisis</h2>
+                <button id="clearHistoryButton" class="neon-btn" style="background:linear-gradient(90deg,#f43f5e,#a259ff);"><i class="fas fa-trash-alt mr-2"></i>Hapus Riwayat</button>
+            </div>
+            <div id="historyList" class="history-list">
+                <!-- History items will be inserted here -->
+            </div>
+            <div id="emptyState" class="empty-state hidden">
+                <i class="fas fa-history"></i>
+                <p>Belum ada riwayat analisis</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navbar hamburger logic
+        const navbarHamburger = document.getElementById('navbarHamburger');
+        const navbarMenu = document.getElementById('navbarMenu');
+        navbarHamburger.addEventListener('click', () => {
+            navbarMenu.classList.toggle('open');
+        });
+        // Navbar login/logout logic
+        const navbarLoginBtn = document.getElementById('navbarLoginBtn');
+        function updateNavbarAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn) {
+                navbarLoginBtn.textContent = 'Logout';
+                navbarLoginBtn.onclick = () => {
+                    localStorage.removeItem('isLoggedIn');
+                    window.location.href = 'landing.html';
+                };
+            } else {
+                navbarLoginBtn.textContent = 'Login / Register';
+                navbarLoginBtn.onclick = () => {
+                    window.location.href = 'login.html';
+                };
+            }
+        }
+        updateNavbarAuth();
+    </script>
+    <script>
+        // Script khusus history
+        const historyList = document.getElementById('historyList');
+        const clearHistoryButton = document.getElementById('clearHistoryButton');
+        const emptyState = document.getElementById('emptyState');
+        // Check if user is logged in
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+            if (history.length === 0) {
+                historyList.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            historyList.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            historyList.innerHTML = '';
+            history.reverse().forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-text">${item.text}</div>
+                    <div class="history-meta">
+                        <span class="flex items-center">
+                            <i class="fas ${item.resultType === 'Positif' ? 'fa-smile text-green-400' : 'fa-lightbulb text-yellow-400'} mr-2"></i>
+                            ${item.resultType}
+                        </span>
+                        <span class="flex items-center">
+                            <i class="far fa-clock mr-2"></i>
+                            ${item.timestamp}
+                        </span>
+                    </div>
+                `;
+                historyList.appendChild(historyItem);
+            });
+        }
+        clearHistoryButton.addEventListener('click', () => {
+            if (confirm('Apakah Anda yakin ingin menghapus semua riwayat?')) {
+                localStorage.removeItem('searchHistory');
+                loadHistory();
+            }
+        });
+        // Load history when page loads
+        loadHistory();
+    </script>
+</body>
+</html> 

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotica - Analisis Sentimen Teks</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="landing.html" class="navbar-logo">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="8" width="40" height="28" rx="14" fill="#7F1DFF"/>
+                    <ellipse cx="24" cy="22" rx="16" ry="12" fill="#fff"/>
+                    <ellipse cx="18" cy="22" rx="2.5" ry="2.5" fill="#7F1DFF"/>
+                    <ellipse cx="30" cy="22" rx="2.5" ry="2.5" fill="#7F1DFF"/>
+                    <path d="M18 27c2.5 2 7.5 2 10 0" stroke="#7F1DFF" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Emotica
+            </a>
+            <div class="navbar-menu" id="navbarMenu">
+                <a href="landing.html" class="navbar-link active">Home</a>
+                <a href="dashboard.html" class="navbar-link">Dashboard</a>
+                <a href="history.html" class="navbar-link">Riwayat</a>
+                <a href="#about" class="navbar-link">Tentang</a>
+            </div>
+            <div class="navbar-actions" id="navbarActions">
+                <button class="navbar-btn" id="navbarLoginBtn">Login / Register</button>
+            </div>
+            <button class="navbar-hamburger" id="navbarHamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+    <div class="main-content">
+        <!-- SVG Illustration: Positive Communication -->
+        <svg class="hero-svg" viewBox="0 0 400 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="200" cy="210" rx="180" ry="18" fill="#7f1dff22"/>
+            <rect x="60" y="40" width="280" height="100" rx="32" fill="#fff" fill-opacity="0.08" stroke="#a259ff" stroke-width="3"/>
+            <ellipse cx="120" cy="90" rx="18" ry="18" fill="#a259ff"/>
+            <ellipse cx="280" cy="90" rx="18" ry="18" fill="#a259ff"/>
+            <ellipse cx="120" cy="90" rx="8" ry="8" fill="#fff"/>
+            <ellipse cx="280" cy="90" rx="8" ry="8" fill="#fff"/>
+            <path d="M150 110c10 12 90 12 100 0" stroke="#a259ff" stroke-width="5" stroke-linecap="round"/>
+            <rect x="170" y="60" width="60" height="20" rx="10" fill="#fff" fill-opacity="0.15"/>
+            <rect x="170" y="60" width="60" height="20" rx="10" stroke="#a259ff" stroke-width="2"/>
+            <text x="200" y="75" text-anchor="middle" fill="#fff" font-size="14" font-family="Inter">#PositiveVibes</text>
+        </svg>
+        <div class="neon-card flex flex-col items-center justify-center text-center p-10 mb-10 w-full max-w-2xl">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 gradient-text">Emotica</h1>
+            <p class="text-xl text-gray-300 mb-8">Transformasi Komunikasi Digital dengan Analisis Sentimen yang Cerdas</p>
+            <button id="getStartedButton" class="neon-btn">Mulai Sekarang</button>
+        </div>
+        <!-- Features Section -->
+        <section id="features" class="container grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="feature-card">
+                <i class="fas fa-brain text-4xl text-purple-400 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2 gradient-text">Analisis Sentimen</h3>
+                <p class="text-gray-300">Deteksi emosi dalam teks secara real-time dengan teknologi AI canggih</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-comments text-4xl text-purple-400 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2 gradient-text">Saran Alternatif</h3>
+                <p class="text-gray-300">Dapatkan saran kalimat yang lebih positif dan empatik</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-history text-4xl text-purple-400 mb-4"></i>
+                <h3 class="text-xl font-bold mb-2 gradient-text">Riwayat Analisis</h3>
+                <p class="text-gray-300">Pantau dan pelajari pola komunikasi Anda dari waktu ke waktu</p>
+            </div>
+        </section>
+        <!-- About Section -->
+        <section id="about" class="container mb-16">
+            <h2 class="section-title">Tentang Emotica</h2>
+            <div class="neon-card p-8 text-center">
+                <p class="text-gray-300 text-lg">
+                    Emotica adalah aplikasi berbasis web yang dirancang untuk membantu pengguna mengenali dan mengelola ekspresi emosi negatif dalam teks sebelum dipublikasikan secara daring. Dengan fokus pada generasi muda yang aktif di media sosial, Emotica membantu menciptakan komunikasi yang lebih positif dan empatik di dunia digital.
+                </p>
+            </div>
+        </section>
+        <!-- Developers Section -->
+        <section id="developers" class="container grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div class="developer-card">
+                <h3 class="text-xl font-bold mb-2 gradient-text">Tim Pengembang</h3>
+                <p class="text-gray-300 mb-4">
+                    Dikembangkan oleh tim mahasiswa yang berdedikasi untuk meningkatkan kualitas komunikasi digital
+                </p>
+                <div class="flex space-x-4 justify-center">
+                    <a href="#" class="text-purple-400 hover:text-purple-300 text-2xl">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-purple-400 hover:text-purple-300 text-2xl">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="developer-card flex flex-col items-center justify-center">
+                <h3 class="text-xl font-bold mb-2 gradient-text">Teknologi</h3>
+                <p class="text-gray-300">
+                    Dibangun dengan teknologi modern seperti HTML5, CSS3, JavaScript, dan Tailwind CSS untuk pengalaman pengguna yang optimal
+                </p>
+                <!-- SVG Illustration: Coding -->
+                <svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="mt-4">
+                    <rect x="10" y="20" width="100" height="50" rx="12" fill="#7f1dff22" stroke="#a259ff" stroke-width="2"/>
+                    <rect x="20" y="30" width="80" height="30" rx="8" fill="#fff" fill-opacity="0.08"/>
+                    <rect x="30" y="40" width="20" height="10" rx="3" fill="#a259ff"/>
+                    <rect x="60" y="40" width="30" height="10" rx="3" fill="#a259ff"/>
+                </svg>
+            </div>
+        </section>
+    </div>
+    <script>
+        // Navbar hamburger logic
+        const navbarHamburger = document.getElementById('navbarHamburger');
+        const navbarMenu = document.getElementById('navbarMenu');
+        navbarHamburger.addEventListener('click', () => {
+            navbarMenu.classList.toggle('open');
+        });
+        // Navbar login/logout logic
+        const navbarLoginBtn = document.getElementById('navbarLoginBtn');
+        function updateNavbarAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn) {
+                navbarLoginBtn.textContent = 'Logout';
+                navbarLoginBtn.onclick = () => {
+                    localStorage.removeItem('isLoggedIn');
+                    window.location.href = 'landing.html';
+                };
+            } else {
+                navbarLoginBtn.textContent = 'Login / Register';
+                navbarLoginBtn.onclick = () => {
+                    window.location.href = 'login.html';
+                };
+            }
+        }
+        updateNavbarAuth();
+        // Main content logic
+        const getStartedButton = document.getElementById('getStartedButton');
+        if (getStartedButton) {
+            getStartedButton.addEventListener('click', () => {
+                window.location.href = 'login.html';
+            });
+        }
+    </script>
+</body>
+</html> 
