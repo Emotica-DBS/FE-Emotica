@@ -13,7 +13,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './pages')
+      '@': path.resolve(__dirname, './pages'),
     }
-  }
-}); 
+  },
+  publicDir: '../',  // Ubah ke parent directory
+});

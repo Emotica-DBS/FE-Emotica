@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Emotica</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="landing.html" class="navbar-logo">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="8" width="40" height="28" rx="14" fill="#7F1DFF"/>
+                    <ellipse cx="24" cy="22" rx="16" ry="12" fill="#fff"/>
+                    <ellipse cx="18" cy="22" rx="2.5" ry="2.5" fill="#7F1DFF"/>
+                    <ellipse cx="30" cy="22" rx="2.5" ry="2.5" fill="#7F1DFF"/>
+                    <path d="M18 27c2.5 2 7.5 2 10 0" stroke="#7F1DFF" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Emotica
+            </a>
+            <div class="navbar-menu" id="navbarMenu">
+                <a href="landing.html" class="navbar-link">Home</a>
+                <a href="dashboard.html" class="navbar-link">Dashboard</a>
+                <a href="history.html" class="navbar-link">Riwayat</a>
+                <a href="about.html" class="navbar-link active">Tentang</a>
+            </div>
+            <div class="navbar-actions" id="navbarActions">
+                <button class="navbar-btn" id="navbarLoginBtn">Login / Register</button>
+            </div>
+            <button class="navbar-hamburger" id="navbarHamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Hero Section -->
+        <div class="neon-card w-full max-w-4xl p-10 mb-8">
+            <h1 class="text-4xl font-bold mb-6 gradient-text text-center">Tentang Emotica</h1>
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold mb-4 gradient-text">Visi Kami</h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Emotica bertujuan untuk menciptakan lingkungan digital yang lebih positif dan empatik melalui analisis sentimen teks yang cerdas. Kami percaya bahwa komunikasi yang lebih baik dapat membangun hubungan yang lebih bermakna di dunia digital.
+                </p>
+            </div>
+            
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold mb-4 gradient-text">Teknologi</h2>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                    Dibangun dengan teknologi modern seperti:
+                </p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="feature-card p-4">
+                        <i class="fab fa-html5 text-3xl text-purple-400 mb-2"></i>
+                        <h3 class="font-semibold">HTML5</h3>
+                    </div>
+                    <div class="feature-card p-4">
+                        <i class="fab fa-css3-alt text-3xl text-purple-400 mb-2"></i>
+                        <h3 class="font-semibold">CSS3</h3>
+                    </div>
+                    <div class="feature-card p-4">
+                        <i class="fab fa-js text-3xl text-purple-400 mb-2"></i>
+                        <h3 class="font-semibold">JavaScript</h3>
+                    </div>
+                    <div class="feature-card p-4">
+                        <i class="fab fa-python text-3xl text-purple-400 mb-2"></i>
+                        <h3 class="font-semibold">Python</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="neon-card w-full max-w-4xl p-10">
+            <h2 class="text-3xl font-bold mb-8 gradient-text text-center">Tim Kami</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Team Member 1 -->
+                <div class="developer-card p-6 text-center">
+                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center">
+                        <i class="fas fa-user text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 gradient-text">John Doe</h3>
+                    <p class="text-gray-400 mb-3">Frontend Developer</p>
+                    <div class="flex justify-center space-x-3">
+                        <a href="#" class="text-purple-400 hover:text-purple-300"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-purple-400 hover:text-purple-300"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="developer-card p-6 text-center">
+                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center">
+                        <i class="fas fa-user text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 gradient-text">Jane Smith</h3>
+                    <p class="text-gray-400 mb-3">Backend Developer</p>
+                    <div class="flex justify-center space-x-3">
+                        <a href="#" class="text-purple-400 hover:text-purple-300"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-purple-400 hover:text-purple-300"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="developer-card p-6 text-center">
+                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center">
+                        <i class="fas fa-user text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 gradient-text">Alex Johnson</h3>
+                    <p class="text-gray-400 mb-3">UI/UX Designer</p>
+                    <div class="flex justify-center space-x-3">
+                        <a href="#" class="text-purple-400 hover:text-purple-300"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-purple-400 hover:text-purple-300"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navbar hamburger logic
+        const navbarHamburger = document.getElementById('navbarHamburger');
+        const navbarMenu = document.getElementById('navbarMenu');
+        navbarHamburger.addEventListener('click', () => {
+            navbarMenu.classList.toggle('open');
+        });
+        
+        // Navbar login/logout logic 
+        const navbarLoginBtn = document.getElementById('navbarLoginBtn');
+        function updateNavbarAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn) {
+                navbarLoginBtn.textContent = 'Logout';
+                navbarLoginBtn.onclick = () => {
+                    localStorage.removeItem('isLoggedIn');
+                    window.location.href = 'landing.html';
+                };
+            } else {
+                navbarLoginBtn.textContent = 'Login / Register';
+                navbarLoginBtn.onclick = () => {
+                    window.location.href = 'login.html';
+                };
+            }
+        }
+        updateNavbarAuth();
+    </script>
+</body>
+</html>

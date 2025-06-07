@@ -7,8 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../style/style.css">
-</head>
+   <link rel="stylesheet" href="/style/style.css">
+</head> 
 <body>
     <nav class="navbar">
         <div class="navbar-inner">
@@ -22,14 +22,14 @@
                 </svg>
                 Emotica
             </a>
-            <div class="navbar-menu" id="navbarMenu">
+           <div class="navbar-menu" id="navbarMenu">
                 <a href="landing.html" class="navbar-link">Home</a>
                 <a href="dashboard.html" class="navbar-link">Dashboard</a>
                 <a href="history.html" class="navbar-link">Riwayat</a>
-                <a href="#about" class="navbar-link">Tentang</a>
+                <a href="about.html" class="navbar-link">Tentang</a>
             </div>
             <div class="navbar-actions" id="navbarActions">
-                <button class="navbar-btn" id="navbarLoginBtn">Login / Register</button>
+                <button class="navbar-btn" id="navbarLoginBtn active">Login / Register</button>
             </div>
             <button class="navbar-hamburger" id="navbarHamburger"><i class="fas fa-bars"></i></button>
         </div>
@@ -58,49 +58,114 @@
             <p class="text-gray-400 mt-4">Sudah punya akun? <a href="login.html" id="loginLink" class="text-purple-400 hover:underline">Login</a></p>
         </div>
     </div>
-    <script>
-        // Navbar hamburger logic
-        const navbarHamburger = document.getElementById('navbarHamburger');
-        const navbarMenu = document.getElementById('navbarMenu');
-        navbarHamburger.addEventListener('click', () => {
-            navbarMenu.classList.toggle('open');
-        });
-        // Navbar login/logout logic
-        const navbarLoginBtn = document.getElementById('navbarLoginBtn');
-        function updateNavbarAuth() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            if (isLoggedIn) {
-                navbarLoginBtn.textContent = 'Logout';
-                navbarLoginBtn.onclick = () => {
-                    localStorage.removeItem('isLoggedIn');
-                    window.location.href = 'landing.html';
-                };
-            } else {
-                navbarLoginBtn.textContent = 'Login / Register';
-                navbarLoginBtn.onclick = () => {
-                    window.location.href = 'login.html';
-                };
+    // Hapus script login yang tidak diperlukan dan ganti dengan script register:
+
+<script>
+    // Navbar elements
+    const navbarHamburger = document.getElementById('navbarHamburger');
+    const navbarMenu = document.getElementById('navbarMenu');
+    const navbarLoginBtn = document.getElementById('navbarLoginBtn');
+    
+    // Form elements
+    const registerForm = document.getElementById('registerForm');
+    const loginLink = document.getElementById('loginLink');
+
+    // Hamburger menu toggle
+    navbarHamburger.addEventListener('click', () => {
+        navbarMenu.classList.toggle('open');
+    });
+
+    // Register form handler
+    registerForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            // Ambil data users yang sudah ada
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Cek apakah email sudah terdaftar
+            if (users.some(user => user.email === email)) {
+                // Notifikasi email sudah terdaftar
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                notification.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Email sudah terdaftar! Silakan gunakan email lain.</span>
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 3000);
+                return;
             }
-        }
-        updateNavbarAuth();
-    </script>
-    <script>
-        // Script khusus register
-        const registerForm = document.getElementById('registerForm');
-        const loginLink = document.getElementById('loginLink');
-        registerForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            // Simulasi registrasi sukses
+
+            // Tambah user baru
+            users.push({ name, email, password });
+            
+            // Simpan ke localStorage
+            localStorage.setItem('users', JSON.stringify(users));
             localStorage.setItem('isLoggedIn', 'true');
-            window.location.href = 'dashboard.html';
-        });
-        loginLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = 'login.html';
-        });
-    </script>
+            localStorage.setItem('currentUser', JSON.stringify({ name, email }));
+
+            // Notifikasi sukses
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Registrasi berhasil! Selamat datang di Emotica, ${name}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            // Redirect setelah notifikasi
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+
+        } catch (error) {
+            console.error('Error during registration:', error);
+            // Notifikasi error
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Terjadi kesalahan saat registrasi. Silakan coba lagi.</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+    });
+
+    // Navbar auth update
+    function updateNavbarAuth() {
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        if (isLoggedIn) {
+            navbarLoginBtn.textContent = 'Logout';
+            navbarLoginBtn.onclick = () => {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
+                window.location.href = 'landing.html';
+            };
+        } else {
+            navbarLoginBtn.textContent = 'Login / Register';
+            navbarLoginBtn.onclick = () => {
+                window.location.href = 'login.html';
+            };
+        }
+    }
+    updateNavbarAuth();
+
+    // Login link handler
+    loginLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = 'login.html';
+    });
+</script>
 </body>
 </html> 

@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="/style/style.css">
 </head>
 <body>
     <nav class="navbar">
@@ -24,9 +24,9 @@
             </a>
             <div class="navbar-menu" id="navbarMenu">
                 <a href="landing.html" class="navbar-link">Home</a>
-                <a href="dashboard.html" class="navbar-link">Dashboard</a>
+                <a href="dashboard.html" class="navbar-link active">Dashboard</a>
                 <a href="history.html" class="navbar-link">Riwayat</a>
-                <a href="#about" class="navbar-link">Tentang</a>
+                <a href="about.html" class="navbar-link">Tentang</a>
             </div>
             <div class="navbar-actions" id="navbarActions">
                 <button class="navbar-btn" id="navbarLoginBtn">Login / Register</button>
@@ -46,7 +46,7 @@
             <path d="M90 70c8 8 32 8 40 0" stroke="#a259ff" stroke-width="4" stroke-linecap="round"/>
             <rect x="100" y="35" width="20" height="10" rx="5" fill="#fff" fill-opacity="0.15"/>
             <rect x="100" y="35" width="20" height="10" rx="5" stroke="#a259ff" stroke-width="2"/>
-            <text x="110" y="43" text-anchor="middle" fill="#fff" font-size="10" font-family="Inter">Emosi</text>
+            <text x="110" y="43" text-anchor="middle" fill="#fff" font-size="10" font-family="Inter">
         </svg>
         <div class="neon-card w-full max-w-2xl p-10 flex flex-col items-center">
             <h2 class="text-3xl font-bold mb-6 gradient-text">Dashboard</h2>
@@ -58,12 +58,6 @@
                     <button id="suggestionButton" class="neon-btn w-full md:w-auto">Berikan Saran</button>
                 </div>
                 <div id="analysisResult" class="mt-4 p-4 bg-white/10 rounded-xl text-white text-center"></div>
-            </section>
-            <section class="w-full">
-                <h3 class="text-xl font-semibold mb-4 gradient-text">Selamat Datang di Emotica</h3>
-                <p class="text-gray-300">
-                    Aplikasi berbasis web yang dirancang untuk membantu pengguna mengenali dan mengelola ekspresi emosi negatif dalam teks sebelum dipublikasikan secara daring.
-                </p>
             </section>
             <a href="history.html" id="historyLink" class="text-purple-400 hover:underline mt-6 inline-block">Lihat Riwayat Analisis</a>
         </div>
@@ -95,30 +89,125 @@
         }
         updateNavbarAuth();
     </script>
-    <script>
+   <script>
+        // Data untuk analisis sentimen dan saran
+        const sentimentResponses = {
+            positive: {
+                emoji: "😊",
+                responses: [
+                    "Sangat Positif! Teks Anda memancarkan energi yang menyenangkan",
+                    "Wow! Pesan yang sangat optimis dan membangun",
+                    "Luar biasa positif! Teruskan semangat ini"
+                ]
+            },
+            negative: {
+                emoji: "😔",
+                responses: [
+                    "Sepertinya ada nuansa negatif dalam pesan ini",
+                    "Teks ini terkesan kurang menyenangkan",
+                    "Mungkin bisa menggunakan kata-kata yang lebih positif"
+                ]
+            },
+            neutral: {
+                emoji: "😐",
+                responses: [
+                    "Teks Anda terkesan netral",
+                    "Pesan ini cukup seimbang",
+                    "Tidak ada emosi yang terlalu dominan"
+                ]
+            }
+        };
+
+        const suggestionTemplates = [
+            {
+                context: "formal",
+                suggestions: [
+                    "Dengan hormat, saya ingin menyampaikan bahwa...",
+                    "Mohon pertimbangan Bapak/Ibu terkait...",
+                    "Terima kasih atas perhatian yang diberikan..."
+                ]
+            },
+            {
+                context: "informal",
+                suggestions: [
+                    "Hey, menurutku ini akan lebih baik kalau...",
+                    "Bagaimana kalau kita coba...",
+                    "Aku sangat menghargai pendapatmu tentang..."
+                ]
+            },
+            {
+                context: "professional",
+                suggestions: [
+                    "Berdasarkan analisis yang dilakukan...",
+                    "Hasil evaluasi menunjukkan bahwa...",
+                    "Sebagai tindak lanjut, disarankan untuk..."
+                ]
+            }
+        ];
+
         // Script khusus dashboard
         const analysisText = document.getElementById('analysisText');
         const analyzeButton = document.getElementById('analyzeButton');
         const suggestionButton = document.getElementById('suggestionButton');
         const analysisResult = document.getElementById('analysisResult');
         const historyLink = document.getElementById('historyLink');
+
         // Check if user is logged in
         if (!localStorage.getItem('isLoggedIn')) {
             window.location.href = 'login.html';
         }
+
         analyzeButton.addEventListener('click', () => {
             const text = analysisText.value;
-            analysisResult.textContent = `Simulasi: Sentimen teks: Positif. (Teks: ${text})`;
-            storeSearch(text, 'Positif');
+            if (!text.trim()) {
+                analysisResult.innerHTML = '<span class="text-red-400">⚠️ Mohon masukkan teks terlebih dahulu</span>';
+                return;
+            }
+
+            const sentiments = ['positive', 'negative', 'neutral'];
+            const randomSentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
+            const sentiment = sentimentResponses[randomSentiment];
+            const confidence = (Math.random() * 40 + 60).toFixed(1);
+
+            const response = `
+                <div class="text-center">
+                    <div class="text-6xl mb-4">${sentiment.emoji}</div>
+                    <div class="mb-2">${sentiment.responses[Math.floor(Math.random() * sentiment.responses.length)]}</div>
+                    <div class="text-sm text-purple-400">Tingkat Kepercayaan: ${confidence}%</div>
+                </div>
+            `;
+
+            analysisResult.innerHTML = response;
+            storeSearch(text, `${randomSentiment} (${confidence}%)`);
         });
+
         suggestionButton.addEventListener('click', () => {
             const text = analysisText.value;
-            analysisResult.textContent = `Simulasi: Saran: Gunakan kalimat "Teks ini sangat baik." (Teks: ${text})`;
-            storeSearch(text, 'Saran Kalimat');
+            if (!text.trim()) {
+                analysisResult.innerHTML = '<span class="text-red-400">⚠️ Mohon masukkan teks terlebih dahulu</span>';
+                return;
+            }
+
+            const contextType = suggestionTemplates[Math.floor(Math.random() * suggestionTemplates.length)];
+            const suggestion = contextType.suggestions[Math.floor(Math.random() * contextType.suggestions.length)];
+
+            const response = `
+                <div class="text-center">
+                    <div class="text-4xl mb-4">💡</div>
+                    <div class="mb-2">Saran Alternatif Kalimat:</div>
+                    <div class="text-purple-400 italic">"${suggestion}"</div>
+                    <div class="text-sm mt-2 text-gray-400">(Konteks: ${contextType.context})</div>
+                </div>
+            `;
+
+            analysisResult.innerHTML = response;
+            storeSearch(text, `Saran: ${contextType.context}`);
         });
+
         historyLink.addEventListener('click', () => {
             window.location.href = 'history.html';
         });
+
         function storeSearch(text, resultType) {
             let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
             history.push({ text, resultType, timestamp: new Date().toLocaleString() });

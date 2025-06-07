@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="/style/style.css">
 </head>
 <body>
     <nav class="navbar">
@@ -22,14 +22,14 @@
                 </svg>
                 Emotica
             </a>
-            <div class="navbar-menu" id="navbarMenu">
+           <div class="navbar-menu" id="navbarMenu">
                 <a href="landing.html" class="navbar-link">Home</a>
                 <a href="dashboard.html" class="navbar-link">Dashboard</a>
                 <a href="history.html" class="navbar-link">Riwayat</a>
-                <a href="#about" class="navbar-link">Tentang</a>
+                <a href="about.html" class="navbar-link">Tentang</a>
             </div>
             <div class="navbar-actions" id="navbarActions">
-                <button class="navbar-btn" id="navbarLoginBtn">Login / Register</button>
+                <button class="navbar-btn" id="navbarLoginBtn active">Login / Register</button>
             </div>
             <button class="navbar-hamburger" id="navbarHamburger"><i class="fas fa-bars"></i></button>
         </div>
@@ -44,58 +44,151 @@
             <circle cx="90" cy="55" r="6" fill="#fff" fill-opacity="0.7"/>
             <rect x="90" y="40" width="10" height="10" rx="3" fill="#a259ff"/>
         </svg>
-        <div class="neon-card w-full max-w-md p-8 flex flex-col items-center">
-            <h2 class="text-3xl font-bold mb-6 gradient-text">Login</h2>
-            <form id="loginForm" class="w-full flex flex-col">
-                <label for="email" class="text-gray-300 text-sm font-bold mb-2 text-left">Email</label>
-                <input type="email" id="email" placeholder="Email" class="neon-input" required>
-                <label for="password" class="text-gray-300 text-sm font-bold mb-2 text-left">Password</label>
-                <input type="password" id="password" placeholder="Password" class="neon-input" required>
-                <button type="submit" class="neon-btn mt-2">Login</button>
-            </form>
-            <p class="text-gray-400 mt-4">Belum punya akun? <a href="register.html" id="registerLink" class="text-purple-400 hover:underline">Daftar</a></p>
+       <div class="neon-card w-full max-w-md p-8 flex flex-col items-center">
+    <h2 class="text-3xl font-bold mb-6 gradient-text">Login</h2>
+    <form id="loginForm" class="w-full">
+        <div class="mb-4">
+            <label for="email" class="block text-gray-300 mb-2">Email</label>
+            <input type="email" id="email" required 
+                class="neon-input w-full" 
+                placeholder="Masukkan email Anda">
         </div>
+        <div class="mb-6">
+            <label for="password" class="block text-gray-300 mb-2">Password</label>
+            <input type="password" id="password" required 
+                class="neon-input w-full" 
+                placeholder="Masukkan password Anda">
+        </div>
+        <button type="submit" class="neon-btn w-full mb-4">Login</button>
+        <p class="text-center text-gray-400">
+            Belum punya akun? 
+            <a href="register.html" id="registerLink" class="text-purple-400 hover:underline">Register</a>
+        </p>
+    </form>
+</div>
     </div>
-    <script>
-        // Navbar hamburger logic
-        const navbarHamburger = document.getElementById('navbarHamburger');
-        const navbarMenu = document.getElementById('navbarMenu');
-        navbarHamburger.addEventListener('click', () => {
-            navbarMenu.classList.toggle('open');
-        });
-        // Navbar login/logout logic
-        const navbarLoginBtn = document.getElementById('navbarLoginBtn');
-        function updateNavbarAuth() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            if (isLoggedIn) {
-                navbarLoginBtn.textContent = 'Logout';
-                navbarLoginBtn.onclick = () => {
-                    localStorage.removeItem('isLoggedIn');
-                    window.location.href = 'landing.html';
-                };
-            } else {
-                navbarLoginBtn.textContent = 'Login / Register';
-                navbarLoginBtn.onclick = () => {
-                    window.location.href = 'login.html';
-                };
-            }
-        }
-        updateNavbarAuth();
-        // Main content logic
-        const loginForm = document.getElementById('loginForm');
-        const registerLink = document.getElementById('registerLink');
-        loginForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            // Simulasi login sukses
+<script>
+    // Navbar hamburger logic
+    const navbarHamburger = document.getElementById('navbarHamburger');
+    const navbarMenu = document.getElementById('navbarMenu');
+    const navbarLoginBtn = document.getElementById('navbarLoginBtn');
+    const loginForm = document.getElementById('loginForm');
+    const registerLink = document.getElementById('registerLink');
+
+    // Fix class active yang salah di button
+    navbarLoginBtn.classList.remove('active');
+
+    // Hamburger menu toggle
+    navbarHamburger.addEventListener('click', () => {
+        navbarMenu.classList.toggle('open');
+    });
+    // Login form handler
+loginForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        // Ambil data users dari localStorage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        
+        // Cek apakah email dan password cocok
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (user) {
+            // Login sukses
             localStorage.setItem('isLoggedIn', 'true');
-            window.location.href = 'dashboard.html';
-        });
-        registerLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = 'register.html';
-        });
-    </script>
+            localStorage.setItem('currentUser', JSON.stringify({
+                name: user.name,
+                email: user.email
+            }));
+
+            // Notifikasi sukses
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Login berhasil! Selamat datang kembali, ${user.name}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            // Redirect setelah notifikasi
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        } else {
+            // Login gagal
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Login gagal: Email atau password salah!</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            // Hapus notifikasi setelah 3 detik
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        // Notifikasi error
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        notification.innerHTML = `
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Terjadi kesalahan saat login. Silakan coba lagi.</span>
+            </div>
+        `;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+    }
+});
+
+// Perbaikan fungsi updateNavbarAuth
+function updateNavbarAuth() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    if (isLoggedIn && currentUser) {
+        navbarLoginBtn.textContent = 'Logout';
+        navbarLoginBtn.onclick = () => {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            
+            // Notifikasi logout
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-purple-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Berhasil logout. Sampai jumpa!</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                window.location.href = 'landing.html';
+            }, 1500);
+        };
+    } else {
+        navbarLoginBtn.textContent = 'Login / Register';
+        navbarLoginBtn.onclick = () => {
+            window.location.href = 'login.html';
+        };
+    }
+}
+    // Register link handler
+    registerLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = 'register.html';
+    });
+</script>
 </body>
 </html> 
