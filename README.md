@@ -1,81 +1,96 @@
-# Emotica Frontend
+# Emotica - Text Sentiment Analysis Application
 
-Frontend application for Emotica - A Text Sentiment Analysis Tool
+Emotica is an intelligent web application designed to help users recognize and manage sentiment in digital communications. Using AI technology, Emotica analyzes text in real-time to provide deep understanding of emotional tone and suggests improvements for creating more positive and empathetic interactions.
 
-## Features
+## ✨ Key Features
 
-- Modern, responsive UI built with React and Tailwind CSS
-- User authentication (login/register)
-- Text sentiment analysis
-- Analysis history
-- Dark/Light mode
-- Responsive design
+- **Professional & Responsive Design**: Clean and modern interface across all devices
+- **Light & Dark Mode**: Comfortable visual experience with auto-saving theme support
+- **Instant Sentiment Analysis**: Get real-time sentiment analysis results (positive, negative, neutral)
+- **Interactive Dashboard**: View usage statistics and sentiment distribution charts
+- **Advanced Analysis History**: Manage your analysis history with search and filtering
+- **Pagination**: Easy navigation through extensive analysis history
+- **Modular Architecture**: Clean JavaScript code using ES6 Modules, ready for Vite bundling
 
-## Prerequisites
+## 🛠️ Technologies Used
 
-- Node.js (v14 or higher)
-- npm or yarn
+### Frontend
+- HTML5
+- CSS3 (with Tailwind CSS)
+- JavaScript (ES6+)
+- Chart.js for data visualization
+- Font Awesome for icons
 
-## Installation
+### Development
+- Vite as module bundler
+- Node.js & npm for dependency management
 
-1. Install dependencies:
+## 📂 Project Structure
+```
+emotica/
+└── frontend/
+    ├── assets/
+    │   ├── favicon.png
+    │   ├── apple-touch-icon.png
+    │   └── ilustrasi.svg
+    │
+    ├── js/
+    │   ├── main.js
+    │   ├── auth.js
+    │   ├── utils.js
+    │   ├── login.js
+    │   ├── register.js
+    │   ├── dashboard.js
+    │   └── history.js
+    │
+    ├── pages/
+    │   ├── index.html
+    │   ├── about.html
+    │   ├── login.html
+    │   ├── register.html
+    │   ├── dashboard.html
+    │   └── history.html
+    │
+    └── style/
+        └── main.css
+```
 
+## 🚀 Getting Started
+
+Follow these steps to run the project locally:
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Emotica-DBS/FE-Emotica.git
+```
+
+2. Navigate to frontend directory:
+```bash
+cd emotica/frontend
+```
+
+3. Install dependencies:
 ```bash
 npm install
 ```
 
-2. Create a `.env` file in the root directory and add your API URL:
-
-```
-VITE_API_URL=http://localhost:5000/api/v1
-```
-
-3. Start the development server:
-
+4. Run development server:
 ```bash
 npm run dev
 ```
 
-## Available Scripts
+The application will be accessible at http://localhost:5173 (or another available port).
 
-- `npm run dev` - Start the development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+## 🧑‍💻 Development Team
 
-## Project Structure
+This project is a collaboration of dedicated team members:
 
-```
-frontend/
-├── public/          # Static files
-├── src/
-│   ├── assets/      # Images, fonts, etc.
-│   ├── components/   # Reusable UI components
-│   ├── context/      # React context providers
-│   ├── hooks/        # Custom React hooks
-│   ├── pages/        # Page components
-│   ├── services/     # API service functions
-│   ├── styles/       # Global styles
-│   ├── utils/        # Utility functions
-│   ├── App.jsx       # Main App component
-│   └── main.jsx      # Application entry point
-└── index.html        # HTML template
-```
+- **Addien Munadiya Yunadi** - Machine Learning
+- **Bivandira Aurel Maha Dewa** - Machine Learning
+- **Mahendra Kirana M.B** - Machine Learning
+- **Erliandika Syahputra** - Front-End Developer
+- **Fajri Nurhadi** - Back-End Developer
 
-## Environment Variables
+## 📄 License
 
-- `VITE_API_URL` - Backend API base URL
-
-## Building for Production
-
-To create a production build:
-
-```bash
-npm run build
-```
-
-This will create a `dist` folder with the production-ready files.
-
-## License
-
-MIT
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
