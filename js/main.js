@@ -1,17 +1,19 @@
 /**
  * main.js
  * File ini adalah titik masuk utama untuk semua skrip JavaScript.
+ * Ia akan menginisialisasi komponen UI yang ada di semua halaman
+ * dan memuat skrip spesifik untuk halaman tertentu secara dinamis.
  */
 
 // Menjalankan semua fungsi inisialisasi setelah DOM (halaman) selesai dimuat.
 document.addEventListener('DOMContentLoaded', () => {
-    // Inisialisasi komponen yang ada di semua halaman
+    // Inisialisasi komponen UI umum yang ada di semua halaman
     initializeMobileMenu();
     initializeThemeToggle();
     initializeNavLinks(); 
     initializeProfileDropdown(); 
     
-    // Logika untuk memuat skrip spesifik per halaman
+    // Memuat skrip spesifik berdasarkan halaman yang sedang dibuka
     const page = document.body.dataset.page;
     if (page === 'dashboard') {
         import('./dashboard.js');
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Menginisialisasi fungsionalitas untuk menu mobile (hamburger menu).
+ * Mengatur buka/tutup menu saat tombol diklik atau saat pengguna mengklik di luar area menu.
  */
 function initializeMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -46,24 +49,21 @@ function initializeMobileMenu() {
 }
 
 /**
- * Menginisialisasi fungsionalitas untuk tombol ganti tema (light/dark mode).
+ * [PERBAIKAN UTAMA 1] Menginisialisasi SEMUA tombol ganti tema.
+ * Fungsi ini diperbaiki untuk mencari tombol berdasarkan kelas (`.theme-toggle-btn`),
+ * sehingga dapat berfungsi baik di navigasi desktop maupun mobile.
  */
 function initializeThemeToggle() {
-    const themeToggle = document.getElementById('themeToggle');
-    const sunIcon = document.getElementById('sunIcon');
-    const moonIcon = document.getElementById('moonIcon');
+    const themeToggles = document.querySelectorAll('.theme-toggle-btn');
+    const sunIcons = document.querySelectorAll('.sun-icon');
+    const moonIcons = document.querySelectorAll('.moon-icon');
 
-    if (!themeToggle || !sunIcon || !moonIcon) return;
+    if (themeToggles.length === 0) return;
 
     const applyTheme = (theme) => {
         document.documentElement.setAttribute('data-theme', theme);
-        if (theme === 'dark') {
-            sunIcon.classList.add('hidden');
-            moonIcon.classList.remove('hidden');
-        } else {
-            sunIcon.classList.remove('hidden');
-            moonIcon.classList.add('hidden');
-        }
+        sunIcons.forEach(icon => icon.classList.toggle('hidden', theme === 'dark'));
+        moonIcons.forEach(icon => icon.classList.toggle('hidden', theme === 'light'));
     };
 
     const switchTheme = () => {
@@ -72,37 +72,60 @@ function initializeThemeToggle() {
         applyTheme(currentTheme);
     };
 
-    themeToggle.addEventListener('click', switchTheme);
+    themeToggles.forEach(button => button.addEventListener('click', switchTheme));
 
     const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     applyTheme(savedTheme);
 }
 
 /**
- * [DISSEMPURNAKAN] Menandai tautan navigasi yang aktif berdasarkan nama file halaman.
+ * [PERBAIKAN UTAMA 2] Menginisialisasi tautan navigasi secara cerdas.
+ * Fungsi ini sekarang bisa menangani dua kasus:
+ * 1. Menandai halaman aktif (misal: about.html).
+ * 2. Menggunakan 'scroll-spy' untuk menandai bagian aktif saat pengguna scroll di halaman utama.
  */
 function initializeNavLinks() {
     const navLinks = document.querySelectorAll('.nav-link');
-    // Mengambil nama halaman dari atribut data-page di body
-    const currentPage = document.body.dataset.page; 
+    const sections = document.querySelectorAll('main section[id]');
+    const currentPage = document.body.dataset.page;
 
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        // Mengambil nama halaman dari atribut href, misal: "about.html" -> "about"
-        const linkPage = link.getAttribute('href').split('.')[0];
-        
-        // Menangani kasus khusus untuk index.html dan halaman lainnya
-        if (currentPage === 'home' && (linkPage === 'index' || linkPage === '')) {
-             link.classList.add('active');
-        } else if (linkPage === currentPage) {
-            link.classList.add('active');
-        }
-    });
+    const activateLink = (targetId) => {
+        navLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            const cleanHref = linkHref.startsWith('#') ? linkHref.substring(1) : linkHref.split('.')[0];
+            
+            // Logika untuk halaman statis
+            if (sections.length === 0) {
+                 link.classList.toggle('active', cleanHref === currentPage);
+            }
+            // Logika untuk scroll-spy di halaman utama
+            else {
+                link.classList.toggle('active', cleanHref === targetId);
+            }
+        });
+    };
+    
+    // Penanganan untuk halaman statis (bukan index.html)
+    if (sections.length === 0) {
+        activateLink(currentPage);
+        return; 
+    }
+
+    // Penanganan untuk scroll-spy di halaman utama (index.html)
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                activateLink(entry.target.getAttribute('id'));
+            }
+        });
+    }, { rootMargin: "-40% 0px -60% 0px" }); // Memicu saat section berada di tengah layar
+
+    sections.forEach(section => observer.observe(section));
 }
 
 
 /**
- * Menginisialisasi dropdown untuk menu profil dan logout.
+ * Menginisialisasi dropdown untuk menu profil dan tombol logout.
  */
 function initializeProfileDropdown() {
     const profileBtn = document.getElementById('profile-btn');
@@ -118,9 +141,10 @@ function initializeProfileDropdown() {
 
     if(logoutBtn){
         logoutBtn.addEventListener('click', () => {
-            // Logika untuk logout
+            // NOTE: Di sini Anda akan memanggil fungsi logout dari auth.js
             console.log("Logout diklik!");
-            localStorage.clear();
+            // import('./auth.js').then(auth => auth.handleLogout());
+            localStorage.clear(); 
             window.location.href = 'login.html';
         });
     }

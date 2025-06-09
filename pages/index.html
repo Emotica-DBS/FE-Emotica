@@ -27,6 +27,7 @@
                     <img src="../assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
                     <span class="text-xl font-bold text-[var(--text)]">Emotica</span>
                 </a>
+                <!-- [PERBAIKAN] Navbar sekarang konsisten dengan halaman lain -->
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="index.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Home</a>
                     <a href="dashboard.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Dashboard</a>
@@ -36,9 +37,9 @@
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="login.html" class="px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Login</a>
                     <a href="register.html" class="px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90 transition-opacity">Sign Up</a>
-                    <button id="themeToggle" class="p-2 rounded-full text-[var(--muted)] hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Ganti Tema">
-                        <svg id="sunIcon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                        <svg id="moonIcon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    <button class="theme-toggle-btn p-2 rounded-full text-[var(--muted)] hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Ganti Tema">
+                        <svg class="sun-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg class="moon-icon w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     </button>
                 </div>
                 <div class="md:hidden flex items-center">
@@ -55,9 +56,15 @@
                 <a href="history.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">History</a>
                 <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">About</a>
                 <div class="pt-4 pb-3 border-t border-[var(--border)] mt-4">
-                    <div class="flex items-center space-x-4">
-                        <a href="login.html" class="w-full text-center px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 border border-[var(--border)]">Login</a>
-                        <a href="register.html" class="w-full text-center px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90">Sign Up</a>
+                    <div class="flex items-center justify-between px-2">
+                        <div class="flex items-center space-x-2">
+                           <a href="login.html" class="px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 border border-[var(--border)]">Login</a>
+                           <a href="register.html" class="px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90">Sign Up</a>
+                        </div>
+                        <button class="theme-toggle-btn p-2 rounded-full text-[var(--muted)] hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Ganti Tema">
+                            <svg class="sun-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                            <svg class="moon-icon w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -164,9 +171,9 @@
                 </div>
             </div>
         </section>
-
-         <!-- Testimonials Section -->
-        <section id="testimonials" class="bg-[var(--bg-secondary)] py-20">
+        
+        <!-- Testimonials Section -->
+        <section class="bg-[var(--bg-secondary)] py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="lg:text-center">
                      <h2 class="text-base text-[var(--accent)] font-semibold tracking-wide uppercase">Testimoni</h2>

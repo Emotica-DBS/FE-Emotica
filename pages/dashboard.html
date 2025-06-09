@@ -22,28 +22,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen antialiased" data-page="dashboard">
-    <!-- Kontainer utama dengan sidebar -->
-    <div class="flex h-screen bg-[var(--bg-secondary)]">
-        <!-- Sidebar -->
-        <aside class="w-64 flex-shrink-0 bg-[var(--bg)] border-r border-[var(--border)] flex flex-col">
+    <div class="flex h-screen bg-[var(--bg-secondary)] overflow-hidden">
+        <!-- Sidebar untuk Mobile & Desktop -->
+        <aside id="sidebar" class="w-64 flex-shrink-0 bg-[var(--bg)] border-r border-[var(--border)] flex flex-col transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-40 md:relative md:translate-x-0 -translate-x-full">
             <!-- Logo -->
-            <div class="h-16 flex items-center justify-center px-4 border-b border-[var(--border)]">
+            <div class="h-16 flex items-center justify-center px-4 border-b border-[var(--border)] flex-shrink-0">
                  <a href="index.html" class="flex items-center gap-2">
                     <img src="../assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
                     <span class="text-xl font-bold text-[var(--text)]">Emotica</span>
                 </a>
             </div>
             <!-- Menu Navigasi -->
-            <nav class="flex-1 px-2 py-4 space-y-1">
+            <nav class="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
                 <a href="dashboard.html" class="nav-link active flex items-center px-2 py-2 text-sm font-medium rounded-md bg-[var(--accent-light)] text-[var(--accent)]">
                     <i class="fas fa-home mr-3 text-lg w-6 text-center"></i> Dashboard
                 </a>
                 <a href="history.html" class="nav-link flex items-center px-2 py-2 text-sm font-medium rounded-md text-[var(--muted)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)]">
                     <i class="fas fa-history mr-3 text-lg w-6 text-center"></i> History
                 </a>
+                <a href="about.html" class="nav-link flex items-center px-2 py-2 text-sm font-medium rounded-md text-[var(--muted)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)]">
+                    <i class="fas fa-info-circle mr-3 text-lg w-6 text-center"></i> About
+                </a>
             </nav>
             <!-- Profile & Logout -->
-            <div class="px-2 py-4 border-t border-[var(--border)]">
+            <div class="px-2 py-4 border-t border-[var(--border)] flex-shrink-0">
                  <div id="profile-menu" class="relative">
                     <button id="profile-btn" class="w-full flex items-center p-2 rounded-md hover:bg-[var(--accent-light)] transition-colors">
                         <span id="user-initial" class="h-8 w-8 rounded-full bg-[var(--accent)] text-white flex items-center justify-center text-sm font-bold">U</span>
@@ -60,13 +62,18 @@
 
         <!-- Konten Utama -->
         <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Header Konten -->
-            <header class="w-full bg-[var(--bg)] border-b border-[var(--border)]">
+            <!-- Header Konten (termasuk tombol menu mobile) -->
+            <header class="w-full bg-[var(--bg)] border-b border-[var(--border)] flex-shrink-0">
                 <div class="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                    <h1 id="user-greeting" class="text-xl font-semibold text-[var(--text)]">Selamat Datang!</h1>
-                    <button id="themeToggle" class="p-2 rounded-full text-[var(--muted)] hover:bg-[var(--bg-secondary)]" aria-label="Ganti Tema">
-                        <svg id="sunIcon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                        <svg id="moonIcon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    <div class="flex items-center">
+                        <button id="mobileMenuBtn" class="p-2 -ml-2 rounded-md text-[var(--text)] md:hidden" aria-label="Buka menu">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <h1 id="user-greeting" class="text-xl font-semibold text-[var(--text)] ml-2 md:ml-0">Selamat Datang!</h1>
+                    </div>
+                    <button class="theme-toggle-btn p-2 rounded-full text-[var(--muted)] hover:bg-[var(--bg-secondary)]" aria-label="Ganti Tema">
+                        <svg class="sun-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg class="moon-icon w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     </button>
                 </div>
             </header>
