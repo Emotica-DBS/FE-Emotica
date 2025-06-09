@@ -21,8 +21,8 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen antialiased bg-[var(--bg)] text-[var(--text)]" data-page="login">
-    <!-- Header -->
+<body class="min-h-screen antialiased flex flex-col" data-page="login">
+    <!-- Header Konsisten -->
     <header class="bg-[var(--bg)]/80 border-b border-[var(--border)] sticky top-0 z-50 backdrop-blur-sm transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -67,47 +67,56 @@
         </div>
     </header>
 
-    <main class="flex items-center justify-center min-h-[calc(100vh-4rem)] bg-[var(--bg-secondary)] py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-[var(--text)]">Masuk ke Akun Anda</h2>
-                <p class="mt-2 text-sm text-[var(--muted)]">
-                    Atau <a href="register.html" class="font-medium text-[var(--accent)] hover:underline">buat akun baru</a>
-                </p>
+    <main class="flex-grow flex items-center w-full">
+        <div class="w-full grid lg:grid-cols-2 items-center gap-8 min-h-full">
+            <!-- Kolom Kiri: Ilustrasi (BACKGROUND DIHILANGKAN) -->
+            <div class="hidden lg:flex flex-col items-center justify-center h-full p-12">
+                <img src="../assets/welcome.svg" alt="Ilustrasi Selamat Datang" class="max-w-md mx-auto">
+                <h1 class="mt-8 text-3xl font-bold text-[var(--text)]">Selamat Datang Kembali!</h1>
+                <p class="mt-2 text-[var(--muted)]">Emotica sudah menunggu.</p>
             </div>
-            
-            <form id="loginForm" class="mt-8 space-y-6 bg-[var(--bg)] p-8 rounded-lg shadow-lg border border-[var(--border)]" action="#" method="POST">
-                
-                <div class="rounded-md shadow-sm -space-y-px">
-                    <div class="form-input-container mb-4">
-                        <i class="fas fa-envelope form-input-icon"></i>
-                        <input id="email-address" name="email" type="email" autocomplete="email" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Alamat Email">
-                    </div>
-                    <div class="form-input-container">
-                         <i class="fas fa-lock form-input-icon"></i>
-                        <input id="password" name="password" type="password" autocomplete="current-password" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Kata Sandi">
-                    </div>
-                </div>
 
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-[var(--accent)] focus:ring-[var(--accent)] border-[var(--border)] rounded">
-                        <label for="remember-me" class="ml-2 block text-sm text-[var(--muted)]">Ingat saya</label>
+            <!-- Kolom Kanan: Form Login -->
+            <div class="w-full flex items-center justify-center p-4 sm:p-12">
+                <div class="w-full max-w-md">
+                    <header class="text-center mb-8 lg:hidden">
+                        <a href="index.html" class="inline-flex items-center gap-2 mb-6">
+                            <img src="../assets/favicon.png" alt="Emotica Logo" class="h-10 w-auto">
+                        </a>
+                    </header>
+                    <div class="text-center">
+                        <h2 class="text-3xl font-extrabold text-[var(--text)]">Masuk ke Akun Anda</h2>
+                        <p class="mt-2 text-sm text-[var(--muted)]">
+                            Belum punya akun? <a href="register.html" class="font-medium text-[var(--accent)] hover:underline">Daftar di sini</a>
+                        </p>
                     </div>
-
-                    <div class="text-sm">
-                        <a href="#" class="font-medium text-[var(--accent)] hover:underline">Lupa kata sandi?</a>
-                    </div>
+                    <form id="loginForm" class="mt-8 space-y-6" action="#" method="POST">
+                        <div class="form-input-container">
+                            <i class="fas fa-envelope form-input-icon"></i>
+                            <input id="email-address" name="email" type="email" autocomplete="email" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Alamat Email">
+                        </div>
+                        <div class="form-input-container">
+                             <i class="fas fa-lock form-input-icon"></i>
+                            <input id="password" name="password" type="password" autocomplete="current-password" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Kata Sandi">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-[var(--accent)] focus:ring-[var(--accent)] border-[var(--border)] rounded">
+                                <label for="remember-me" class="ml-2 block text-sm text-[var(--muted)]">Ingat saya</label>
+                            </div>
+                            <div class="text-sm">
+                                <a href="#" class="font-medium text-[var(--accent)] hover:underline">Lupa kata sandi?</a>
+                            </div>
+                        </div>
+                        <div id="error-message" class="hidden text-red-600 text-sm text-center p-3 bg-red-100 dark:bg-red-900/20 rounded-md border border-red-400 dark:border-red-500"></div>
+                        <div>
+                            <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[var(--accent)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)] transition-all duration-300 ease-in-out">
+                                Masuk
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                
-                <div id="error-message" class="hidden text-red-600 text-sm text-center p-3 bg-red-100 dark:bg-red-900/20 rounded-md border border-red-400 dark:border-red-500">Pesan error di sini</div>
-
-                <div>
-                    <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[var(--accent)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)] transition-all duration-300 ease-in-out">
-                        Masuk
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </main>
 

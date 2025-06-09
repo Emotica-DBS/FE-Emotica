@@ -8,10 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inisialisasi komponen yang ada di semua halaman
     initializeMobileMenu();
     initializeThemeToggle();
-    initializeNavLinks(); // <-- FUNGSI DIPERBARUI untuk menangani scroll & halaman aktif
+    initializeNavLinks(); 
     initializeProfileDropdown(); 
     
-    // Logika untuk memuat skrip spesifik per halaman (jika ada)
+    // Logika untuk memuat skrip spesifik per halaman
     const page = document.body.dataset.page;
     if (page === 'dashboard') {
         import('./dashboard.js');
@@ -39,7 +39,7 @@ function initializeMobileMenu() {
     });
 
     document.addEventListener('click', (e) => {
-        if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+        if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
             mobileMenu.classList.add('hidden');
         }
     });
@@ -79,39 +79,24 @@ function initializeThemeToggle() {
 }
 
 /**
- * [DISSEMPURNAKAN] Menginisialisasi tautan navigasi.
- * Menangani halaman aktif dan juga menyorot tautan berdasarkan bagian (section) yang terlihat saat scrolling.
+ * [DISSEMPURNAKAN] Menandai tautan navigasi yang aktif berdasarkan nama file halaman.
  */
 function initializeNavLinks() {
     const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('main section[id]');
+    // Mengambil nama halaman dari atribut data-page di body
+    const currentPage = document.body.dataset.page; 
 
-    // Tandai halaman aktif saat pertama kali dimuat
-    const currentPage = document.body.dataset.page;
     navLinks.forEach(link => {
+        link.classList.remove('active');
+        // Mengambil nama halaman dari atribut href, misal: "about.html" -> "about"
         const linkPage = link.getAttribute('href').split('.')[0];
-        link.classList.toggle('active', linkPage === currentPage || (currentPage === 'home' && (linkPage === 'index' || linkPage === '')));
-    });
-
-    // Hanya jalankan IntersectionObserver jika ada sections (di halaman utama)
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-                const id = entry.target.getAttribute('id');
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${id}` || (id === 'home' && link.getAttribute('href') === 'index.html')) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    }, { rootMargin: "-50% 0px -50% 0px", threshold: 0.1 });
-
-    sections.forEach(section => {
-        observer.observe(section);
+        
+        // Menangani kasus khusus untuk index.html dan halaman lainnya
+        if (currentPage === 'home' && (linkPage === 'index' || linkPage === '')) {
+             link.classList.add('active');
+        } else if (linkPage === currentPage) {
+            link.classList.add('active');
+        }
     });
 }
 
@@ -133,10 +118,9 @@ function initializeProfileDropdown() {
 
     if(logoutBtn){
         logoutBtn.addEventListener('click', () => {
-            // NOTE: Di sini Anda akan memanggil fungsi logout dari auth.js
-            // import('./auth.js').then(auth => auth.handleLogout());
+            // Logika untuk logout
             console.log("Logout diklik!");
-            localStorage.clear(); // Contoh sederhana
+            localStorage.clear();
             window.location.href = 'login.html';
         });
     }
