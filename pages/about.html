@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Emotica</title>
+    
+    <meta name="description" content="Pelajari lebih lanjut tentang visi, misi, dan tim di balik Emotica, alat analisis sentimen teks yang cerdas.">
+
+    <!-- Konfigurasi PWA dan Tema -->
+    <meta name="theme-color" content="#6D28D9">
+    <link rel="manifest" href="../manifest.json">
+    
+    <!-- Ikon Favicon & PWA -->
+    <link rel="icon" href="../assets/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+
+    <!-- Stylesheet Utama -->
+    <link rel="stylesheet" href="../style/main.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="min-h-screen antialiased bg-[var(--bg)] text-[var(--text)]" data-page="about">
+    <!-- Header -->
+    <header class="bg-[var(--bg)]/80 border-b border-[var(--border)] sticky top-0 z-50 backdrop-blur-sm transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-2">
+                    <img src="../assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
+                    <span class="text-xl font-bold text-[var(--text)]">Emotica</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Home</a>
+                    <a href="dashboard.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Dashboard</a>
+                    <a href="history.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">History</a>
+                    <a href="about.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">About</a>
+                </nav>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="login.html" class="px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Login</a>
+                    <a href="register.html" class="px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90 transition-opacity">Sign Up</a>
+                    <button id="themeToggle" class="p-2 rounded-full text-[var(--muted)] hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Ganti Tema">
+                        <svg id="sunIcon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg id="moonIcon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="p-2 rounded-md text-[var(--text)]" aria-label="Buka menu">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobileMenu" class="md:hidden hidden bg-[var(--bg)] border-t border-[var(--border)]">
+             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">Home</a>
+                <a href="dashboard.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">Dashboard</a>
+                <a href="history.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">History</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">About</a>
+                <div class="pt-4 pb-3 border-t border-[var(--border)] mt-4">
+                    <div class="flex items-center space-x-4">
+                        <a href="login.html" class="w-full text-center px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 border border-[var(--border)]">Login</a>
+                        <a href="register.html" class="w-full text-center px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <div class="bg-[var(--bg-secondary)]">
+            <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h1 class="text-base font-semibold text-[var(--accent)] tracking-wide uppercase">Tentang Emotica</h1>
+                    <p class="mt-1 text-4xl font-extrabold text-[var(--text)] sm:text-5xl sm:tracking-tight lg:text-6xl">
+                        Membangun Komunikasi Digital yang Lebih Empatik.
+                    </p>
+                    <p class="max-w-xl mt-5 mx-auto text-xl text-[var(--muted)]">
+                        Kami percaya teknologi dapat menjadi jembatan untuk saling memahami, bukan penghalang.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Story Section -->
+        <div class="relative bg-[var(--bg)] py-16 sm:py-24 lg:py-32">
+            <div class="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-24 lg:items-center">
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-[var(--text)] tracking-tight sm:text-4xl">
+                            Berawal dari Sebuah Kekhawatiran
+                        </h2>
+                        <p class="mt-6 max-w-3xl text-lg leading-7 text-[var(--muted)]">
+                            Emotica lahir dari pengalaman pribadi kami. Seringkali kami merasa ragu saat akan mengirim pesan atau memposting di media sosial, khawatir jika nada tulisan kami disalahartikan. Kekhawatiran ini ternyata dirasakan banyak orang.
+                        </p>
+                        <p class="mt-4 max-w-3xl text-lg leading-7 text-[var(--muted)]">
+                           Dari situlah kami tergerak untuk menciptakan sebuah solusi: alat bantu cerdas yang tidak hanya menganalisis, tapi juga membantu kita menulis dengan lebih bijak dan empatik.
+                        </p>
+                    </div>
+                    <div class="mt-12 lg:mt-0">
+                        <img class="rounded-lg shadow-xl" src="../assets/about-us-illustration.svg" alt="Ilustrasi tim bekerja">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="bg-[var(--bg-secondary)] py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl font-extrabold text-[var(--text)] tracking-tight sm:text-4xl">
+                        Tim di Balik <span class="gradient-text">Emotica</span>
+                    </h2>
+                    <p class="mt-4 text-lg text-[var(--muted)]">
+                        Kolaborasi antara para engineer Machine Learning dan Front-End & Back-End Developer yang bersemangat.
+                    </p>
+                </div>
+                <div class="mt-12 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:gap-x-6 lg:grid-cols-5 lg:gap-x-8 lg:gap-y-12">
+                    
+                    <!-- Team Member: Addien (ML - Urutan 1) -->
+                    <div class="space-y-4 text-center">
+                        <img class="mx-auto h-24 w-24 rounded-full object-cover lg:w-28 lg:h-28 shadow-lg" src="https://placehold.co/200x200/A78BFA/FFFFFF?text=AM" alt="Foto Addien Munadiya">
+                        <div class="space-y-1">
+                            <h3 class="text-base font-bold text-[var(--text)]">Addien Munadiya</h3>
+                            <p class="text-sm font-medium text-[var(--accent)]">Machine Learning</p>
+                            <div class="flex justify-center space-x-3 pt-2">
+                                <a href="#" class="team-social-link"><i class="fab fa-github"></i></a>
+                                <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Team Member: Bivandira (ML - Urutan 2) -->
+                    <div class="space-y-4 text-center">
+                        <img class="mx-auto h-24 w-24 rounded-full object-cover lg:w-28 lg:h-28 shadow-lg" src="https://placehold.co/200x200/A78BFA/FFFFFF?text=BA" alt="Foto Bivandira Aurel">
+                        <div class="space-y-1">
+                            <h3 class="text-base font-bold text-[var(--text)]">Bivandira Aurel</h3>
+                            <p class="text-sm font-medium text-[var(--accent)]">Machine Learning</p>
+                             <div class="flex justify-center space-x-3 pt-2">
+                                <a href="#" class="team-social-link"><i class="fab fa-github"></i></a>
+                                <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Team Member: Mahendra (ML - Urutan 3) -->
+                    <div class="space-y-4 text-center">
+                        <img class="mx-auto h-24 w-24 rounded-full object-cover lg:w-28 lg:h-28 shadow-lg" src="https://placehold.co/200x200/A78BFA/FFFFFF?text=MK" alt="Foto Mahendra Kirana">
+                        <div class="space-y-1">
+                            <h3 class="text-base font-bold text-[var(--text)]">Mahendra Kirana</h3>
+                            <p class="text-sm font-medium text-[var(--accent)]">Machine Learning</p>
+                             <div class="flex justify-center space-x-3 pt-2">
+                                <a href="#" class="team-social-link"><i class="fab fa-github"></i></a>
+                                <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Team Member: Erliandika (FE) -->
+                    <div class="space-y-4 text-center">
+                        <img class="mx-auto h-24 w-24 rounded-full object-cover lg:w-28 lg:h-28 shadow-lg" src="https://placehold.co/200x200/6D28D9/FFFFFF?text=ES" alt="Foto Erliandika Syahputra">
+                        <div class="space-y-1">
+                            <h3 class="text-base font-bold text-[var(--text)]">Erliandika Syahputra</h3>
+                            <p class="text-sm font-medium text-[var(--accent)]">Front-End</p>
+                             <div class="flex justify-center space-x-3 pt-2">
+                                <a href="https://github.com/Erliandikasyahputraa" target="_blank" rel="noopener noreferrer" class="team-social-link"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/erliandikasyahputra" target="_blank" rel="noopener noreferrer" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Team Member: Fajri (BE) -->
+                    <div class="space-y-4 text-center">
+                        <img class="mx-auto h-24 w-24 rounded-full object-cover lg:w-28 lg:h-28 shadow-lg" src="https://placehold.co/200x200/6D28D9/FFFFFF?text=FN" alt="Foto Fajri Nurhadi">
+                        <div class="space-y-1">
+                            <h3 class="text-base font-bold text-[var(--text)]">Fajri Nurhadi</h3>
+                            <p class="text-sm font-medium text-[var(--accent)]">Back-End</p>
+                             <div class="flex justify-center space-x-3 pt-2">
+                                <a href="#" class="team-social-link"><i class="fab fa-github"></i></a>
+                                <a href="#" class="team-social-link"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[var(--bg-secondary)] border-t border-[var(--border)]">
+         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-base text-[var(--muted)]">&copy; 2025 Emotica. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <!-- Skrip Utama -->
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>

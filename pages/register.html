@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - Emotica</title>
+    
+    <meta name="description" content="Buat akun Emotica baru untuk memulai perjalanan Anda menuju komunikasi digital yang lebih baik.">
+    <meta name="theme-color" content="#6D28D9">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" href="../assets/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+
+    <!-- Stylesheet Utama & Font -->
+    <link rel="stylesheet" href="../style/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen antialiased bg-[var(--bg)] text-[var(--text)]" data-page="register">
+    <!-- Header -->
+    <header class="bg-[var(--bg)]/80 border-b border-[var(--border)] sticky top-0 z-50 backdrop-blur-sm transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-2">
+                    <img src="../assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
+                    <span class="text-xl font-bold text-[var(--text)]">Emotica</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Home</a>
+                    <a href="dashboard.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Dashboard</a>
+                    <a href="history.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">History</a>
+                    <a href="about.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">About</a>
+                </nav>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="login.html" class="px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Login</a>
+                    <a href="register.html" class="nav-link relative text-[var(--text)] font-semibold">Sign Up</a>
+                    <button id="themeToggle" class="p-2 rounded-full text-[var(--muted)] hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Ganti Tema">
+                        <svg id="sunIcon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg id="moonIcon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="p-2 rounded-md text-[var(--text)]" aria-label="Buka menu">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobileMenu" class="md:hidden hidden bg-[var(--bg)] border-t border-[var(--border)]">
+             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">Home</a>
+                <a href="dashboard.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">Dashboard</a>
+                <a href="history.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">History</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">About</a>
+                <div class="pt-4 pb-3 border-t border-[var(--border)] mt-4">
+                    <div class="flex items-center space-x-4">
+                        <a href="login.html" class="w-full text-center px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 border border-[var(--border)]">Login</a>
+                        <a href="register.html" class="w-full text-center px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="min-h-[calc(100vh-4rem)] flex items-center bg-[var(--bg-secondary)]">
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center p-4">
+            
+            <!-- Kolom Kiri: Ilustrasi & Teks Sambutan -->
+            <div class="hidden lg:block text-center lg:text-left">
+                <img src="../assets/ilustrasi_register.svg" alt="Ilustrasi Registrasi" class="w-full max-w-sm mx-auto mb-8">
+                <h1 class="text-4xl font-extrabold text-[var(--text)]">Satu Langkah Lagi Menuju Komunikasi yang Lebih Baik</h1>
+                <p class="mt-4 text-lg text-[var(--muted)]">Bergabunglah dengan Emotica dan mulailah memahami dunia teks dengan cara yang baru.</p>
+            </div>
+
+            <!-- Kolom Kanan: Form Registrasi -->
+            <div class="w-full max-w-md mx-auto">
+                 <div class="bg-[var(--bg)] p-8 rounded-xl shadow-2xl border border-[var(--border)]">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-extrabold text-[var(--text)]">Buat Akun Baru</h2>
+                        <p class="mt-2 text-sm text-[var(--muted)]">
+                            Sudah punya akun? <a href="login.html" class="font-medium text-[var(--accent)] hover:underline">Masuk di sini</a>
+                        </p>
+                    </div>
+                    
+                    <form id="registerForm" class="space-y-6" action="#" method="POST">
+                        
+                        <div class="form-input-container">
+                            <i class="fas fa-user form-input-icon"></i>
+                            <input id="name" name="name" type="text" autocomplete="name" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Nama Lengkap">
+                        </div>
+
+                        <div class="form-input-container">
+                            <i class="fas fa-envelope form-input-icon"></i>
+                            <input id="email-address" name="email" type="email" autocomplete="email" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Alamat Email">
+                        </div>
+
+                        <div class="form-input-container">
+                            <i class="fas fa-lock form-input-icon"></i>
+                            <input id="password" name="password" type="password" autocomplete="new-password" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Kata Sandi">
+                        </div>
+
+                        <div class="form-input-container">
+                            <i class="fas fa-check-double form-input-icon"></i>
+                            <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Konfirmasi Kata Sandi">
+                        </div>
+
+                        <div class="flex items-start">
+                             <div class="flex items-center h-5">
+                                <input id="terms" name="terms" type="checkbox" required class="h-4 w-4 text-[var(--accent)] focus:ring-[var(--accent)] border-[var(--border)] rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="terms" class="text-[var(--muted)]">Saya setuju dengan <a href="#" class="font-medium text-[var(--accent)] hover:underline">Syarat & Ketentuan</a></label>
+                            </div>
+                        </div>
+
+                        <div id="error-message" class="hidden text-red-600 text-sm text-center p-3 bg-red-100 dark:bg-red-900/20 rounded-md border border-red-400 dark:border-red-500"></div>
+
+                        <div>
+                            <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[var(--accent)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)] transition-all duration-300 ease-in-out">
+                                Buat Akun
+                            </button>
+                        </div>
+                    </form>
+                 </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Skrip Utama -->
+    <script type="module" src="../js/main.js"></script>
+    <script type="module" src="../js/register.js"></script>
+</body>
+</html>

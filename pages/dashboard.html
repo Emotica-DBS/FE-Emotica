@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasbor - Emotica</title>
+    
+    <meta name="description" content="Analisis sentimen teks, lihat statistik, dan kelola riwayat Anda di dasbor Emotica.">
+    <meta name="theme-color" content="#6D28D9">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" href="../assets/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+
+    <!-- Stylesheet Utama & Font -->
+    <link rel="stylesheet" href="../style/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen antialiased" data-page="dashboard">
+    <!-- Kontainer utama dengan sidebar -->
+    <div class="flex h-screen bg-[var(--bg-secondary)]">
+        <!-- Sidebar -->
+        <aside class="w-64 flex-shrink-0 bg-[var(--bg)] border-r border-[var(--border)] flex flex-col">
+            <!-- Logo -->
+            <div class="h-16 flex items-center justify-center px-4 border-b border-[var(--border)]">
+                 <a href="index.html" class="flex items-center gap-2">
+                    <img src="../assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
+                    <span class="text-xl font-bold text-[var(--text)]">Emotica</span>
+                </a>
+            </div>
+            <!-- Menu Navigasi -->
+            <nav class="flex-1 px-2 py-4 space-y-1">
+                <a href="dashboard.html" class="nav-link active flex items-center px-2 py-2 text-sm font-medium rounded-md bg-[var(--accent-light)] text-[var(--accent)]">
+                    <i class="fas fa-home mr-3 text-lg w-6 text-center"></i> Dashboard
+                </a>
+                <a href="history.html" class="nav-link flex items-center px-2 py-2 text-sm font-medium rounded-md text-[var(--muted)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)]">
+                    <i class="fas fa-history mr-3 text-lg w-6 text-center"></i> History
+                </a>
+            </nav>
+            <!-- Profile & Logout -->
+            <div class="px-2 py-4 border-t border-[var(--border)]">
+                 <div id="profile-menu" class="relative">
+                    <button id="profile-btn" class="w-full flex items-center p-2 rounded-md hover:bg-[var(--accent-light)] transition-colors">
+                        <span id="user-initial" class="h-8 w-8 rounded-full bg-[var(--accent)] text-white flex items-center justify-center text-sm font-bold">U</span>
+                        <span id="user-name" class="ml-3 text-sm font-medium text-[var(--text)] truncate">User Name</span>
+                    </button>
+                    <div id="logout-dropdown" class="hidden absolute bottom-full mb-2 w-full bg-[var(--bg)] rounded-md shadow-lg border border-[var(--border)] py-1">
+                        <a href="#" id="logout-btn" class="flex items-center w-full text-left px-4 py-2 text-sm text-[var(--muted)] hover:bg-[var(--bg-secondary)]">
+                           <i class="fas fa-sign-out-alt mr-3 w-4"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Konten Utama -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header Konten -->
+            <header class="w-full bg-[var(--bg)] border-b border-[var(--border)]">
+                <div class="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                    <h1 id="user-greeting" class="text-xl font-semibold text-[var(--text)]">Selamat Datang!</h1>
+                    <button id="themeToggle" class="p-2 rounded-full text-[var(--muted)] hover:bg-[var(--bg-secondary)]" aria-label="Ganti Tema">
+                        <svg id="sunIcon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg id="moonIcon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    </button>
+                </div>
+            </header>
+            
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[var(--bg-secondary)] p-4 sm:p-6 lg:p-8">
+                <!-- Grid Utama Dasbor -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Kolom Kiri (Area Utama) -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <!-- Form Analisis -->
+                        <section class="bg-[var(--bg)] p-6 rounded-lg shadow-md border border-[var(--border)]">
+                            <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Analisis Teks Baru</h2>
+                            <form id="analysis-form" class="space-y-4">
+                                <textarea id="text-to-analyze" rows="5" class="w-full text-[var(--text)] bg-[var(--bg-secondary)] border border-[var(--border)] rounded-md p-4 focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)]" placeholder="Ketik atau tempel teks Anda di sini..."></textarea>
+                                <div class="flex justify-between items-center">
+                                    <p class="text-sm text-[var(--muted)]"><span id="char-count">0</span> / 5000 karakter</p>
+                                    <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[var(--accent)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)]">
+                                        <i class="fas fa-magic mr-2"></i> Analisis Sekarang
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+                        
+                        <!-- Hasil Analisis -->
+                        <section id="analysis-results" class="hidden bg-[var(--bg)] p-6 rounded-lg shadow-md border border-[var(--border)]">
+                            <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Hasil Analisis</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                <!-- Hasil Sentimen -->
+                                <div class="flex items-center space-x-4">
+                                    <div id="sentiment-icon" class="flex-shrink-0 h-16 w-16 rounded-full flex items-center justify-center bg-[var(--bg-secondary)]">
+                                        <!-- Ikon akan diisi JS -->
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-[var(--muted)]">Sentimen Terdeteksi</p>
+                                        <p id="sentiment-result" class="text-2xl font-bold text-[var(--text)]">-</p>
+                                    </div>
+                                </div>
+                                <!-- Tingkat Kepercayaan -->
+                                <div>
+                                    <p class="text-sm font-medium text-[var(--muted)] mb-1">Tingkat Kepercayaan</p>
+                                    <div class="progress-bar h-4 w-full">
+                                        <div id="confidence-bar" class="progress-bar-inner bg-[var(--accent)]"></div>
+                                    </div>
+                                    <p id="confidence-percent" class="mt-1 text-sm text-right font-semibold text-[var(--accent)]">0%</p>
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <p class="text-sm font-medium text-[var(--muted)] mb-2">Saran Kalimat (Jika Negatif)</p>
+                                <div id="suggestion-container" class="p-4 bg-[var(--accent-light)] rounded-md text-sm text-[var(--text)] italic">
+                                   <!-- Saran akan diisi JS -->
+                                   Tidak ada saran saat ini.
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Kolom Kanan (Sidebar Info) -->
+                    <div class="space-y-8">
+                        <!-- Statistik Sentimen -->
+                        <section class="bg-[var(--bg)] p-6 rounded-lg shadow-md border border-[var(--border)]">
+                             <h3 class="text-lg font-semibold text-[var(--text)] mb-4">Statistik Anda</h3>
+                             <div class="relative h-48 w-48 mx-auto">
+                                <canvas id="sentiment-chart"></canvas>
+                             </div>
+                             <div class="mt-4 space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span class="flex items-center"><span class="h-2 w-2 rounded-full bg-[var(--positive)] mr-2"></span>Positif</span>
+                                    <span id="chart-positive" class="font-semibold">0%</span>
+                                </div>
+                                 <div class="flex justify-between text-sm">
+                                    <span class="flex items-center"><span class="h-2 w-2 rounded-full bg-[var(--neutral)] mr-2"></span>Netral</span>
+                                    <span id="chart-neutral" class="font-semibold">0%</span>
+                                </div>
+                                 <div class="flex justify-between text-sm">
+                                    <span class="flex items-center"><span class="h-2 w-2 rounded-full bg-[var(--negative)] mr-2"></span>Negatif</span>
+                                    <span id="chart-negative" class="font-semibold">0%</span>
+                                </div>
+                             </div>
+                        </section>
+
+                        <!-- Riwayat Terakhir -->
+                        <section class="bg-[var(--bg)] p-6 rounded-lg shadow-md border border-[var(--border)]">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-[var(--text)]">Analisis Terakhir</h3>
+                                <a href="history.html" class="text-sm font-medium text-[var(--accent)] hover:underline">Lihat Semua</a>
+                            </div>
+                            <ul id="recent-analyses" class="divide-y divide-[var(--border)]">
+                                <!-- Daftar riwayat akan diisi JS -->
+                                <li class="py-3 text-center text-sm text-[var(--muted)]">Tidak ada riwayat.</li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Skrip Utama -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script type="module" src="../js/main.js"></script>
+    <script type="module" src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Analisis - Emotica</title>
+    
+    <meta name="description" content="Lihat, kelola, dan ekspor riwayat analisis sentimen Anda di Emotica.">
+    <meta name="theme-color" content="#6D28D9">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" href="../assets/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+
+    <!-- Stylesheet Utama & Font -->
+    <link rel="stylesheet" href="../style/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen antialiased" data-page="history">
+    <!-- Kontainer utama dengan sidebar -->
+    <div class="flex h-screen bg-[var(--bg-secondary)]">
+        <!-- Sidebar -->
+        <aside class="w-64 flex-shrink-0 bg-[var(--bg)] border-r border-[var(--border)] flex flex-col">
+            <!-- Logo -->
+            <div class="h-16 flex items-center justify-center px-4 border-b border-[var(--border)]">
+                 <a href="index.html" class="flex items-center gap-2">
+                    <img src="../assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
+                    <span class="text-xl font-bold text-[var(--text)]">Emotica</span>
+                </a>
+            </div>
+            <!-- Menu Navigasi -->
+            <nav class="flex-1 px-2 py-4 space-y-1">
+                <a href="dashboard.html" class="nav-link flex items-center px-2 py-2 text-sm font-medium rounded-md text-[var(--muted)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)]">
+                    <i class="fas fa-home mr-3 text-lg w-6 text-center"></i> Dashboard
+                </a>
+                <a href="history.html" class="nav-link active flex items-center px-2 py-2 text-sm font-medium rounded-md bg-[var(--accent-light)] text-[var(--accent)]">
+                    <i class="fas fa-history mr-3 text-lg w-6 text-center"></i> History
+                </a>
+                <a href="about.html" class="nav-link flex items-center px-2 py-2 text-sm font-medium rounded-md text-[var(--muted)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)]">
+                    <i class="fas fa-info-circle mr-3 text-lg w-6 text-center"></i> About
+                </a>
+            </nav>
+            <!-- Profile & Logout -->
+            <div class="px-2 py-4 border-t border-[var(--border)]">
+                 <div id="profile-menu" class="relative">
+                    <button id="profile-btn" class="w-full flex items-center p-2 rounded-md hover:bg-[var(--accent-light)] transition-colors">
+                        <span id="user-initial" class="h-8 w-8 rounded-full bg-[var(--accent)] text-white flex items-center justify-center text-sm font-bold">U</span>
+                        <span id="user-name" class="ml-3 text-sm font-medium text-[var(--text)] truncate">User Name</span>
+                    </button>
+                    <div id="logout-dropdown" class="hidden absolute bottom-full mb-2 w-full bg-[var(--bg)] rounded-md shadow-lg border border-[var(--border)] py-1">
+                        <a href="#" id="logout-btn" class="flex items-center w-full text-left px-4 py-2 text-sm text-[var(--muted)] hover:bg-[var(--bg-secondary)]">
+                           <i class="fas fa-sign-out-alt mr-3 w-4"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Konten Utama -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header Konten -->
+            <header class="w-full bg-[var(--bg)] border-b border-[var(--border)]">
+                <div class="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                     <div class="flex-1 min-w-0">
+                        <h1 class="text-xl font-semibold text-[var(--text)] sm:truncate">Riwayat Analisis</h1>
+                     </div>
+                     <div class="flex items-center gap-4">
+                        <button type="button" class="inline-flex items-center px-4 py-2 border border-[var(--border)] rounded-md shadow-sm text-sm font-medium text-[var(--text)] bg-[var(--bg)] hover:bg-[var(--bg-secondary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)]">
+                            <i class="fas fa-download -ml-1 mr-2 text-[var(--muted)]"></i>
+                            Export
+                        </button>
+                        <a href="dashboard.html" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[var(--accent)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)]">
+                            <i class="fas fa-plus -ml-1 mr-2"></i>
+                            Analisis Baru
+                        </a>
+                        <button id="themeToggle" class="p-2 rounded-full text-[var(--muted)] hover:bg-[var(--bg-secondary)]" aria-label="Ganti Tema">
+                            <svg id="sunIcon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                            <svg id="moonIcon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                        </button>
+                     </div>
+                </div>
+            </header>
+            
+            <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
+                 <!-- Filters and Search -->
+                <div class="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)] mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div class="md:col-span-2">
+                             <label for="search-history" class="block text-sm font-medium text-[var(--muted)]">Cari Teks</label>
+                             <div class="mt-1 form-input-container">
+                                 <i class="fas fa-search form-input-icon"></i>
+                                 <input type="text" name="search-history" id="search-history" class="form-input block w-full rounded-md border-[var(--border)] bg-[var(--bg-secondary)] shadow-sm focus:border-[var(--accent)] focus:ring-[var(--accent)] sm:text-sm" placeholder="Cari berdasarkan kata kunci...">
+                             </div>
+                        </div>
+                        <div>
+                             <label for="sentiment-filter" class="block text-sm font-medium text-[var(--muted)]">Filter Sentimen</label>
+                             <select id="sentiment-filter" name="sentiment-filter" class="mt-1 block w-full rounded-md border-[var(--border)] bg-[var(--bg-secondary)] py-2 pl-3 pr-10 text-base focus:border-[var(--accent)] focus:outline-none focus:ring-[var(--accent)] sm:text-sm">
+                                <option value="all">Semua Sentimen</option>
+                                <option value="positive">Positif</option>
+                                <option value="neutral">Netral</option>
+                                <option value="negative">Negatif</option>
+                            </select>
+                        </div>
+                        <div>
+                             <label for="sort-by" class="block text-sm font-medium text-[var(--muted)]">Urutkan</label>
+                             <select id="sort-by" name="sort-by" class="mt-1 block w-full rounded-md border-[var(--border)] bg-[var(--bg-secondary)] py-2 pl-3 pr-10 text-base focus:border-[var(--accent)] focus:outline-none focus:ring-[var(--accent)] sm:text-sm">
+                                <option value="newest">Terbaru</option>
+                                <option value="oldest">Terlama</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- History Table -->
+                <div class="flex flex-col">
+                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="shadow overflow-hidden border-b border-[var(--border)] sm:rounded-lg">
+                                <table class="min-w-full divide-y divide-[var(--border)]">
+                                    <thead class="bg-[var(--bg)]">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Teks</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Sentimen</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Tanggal</th>
+                                            <th scope="col" class="relative px-6 py-3"><span class="sr-only">Aksi</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="history-table-body" class="bg-[var(--bg)] divide-y divide-[var(--border)]">
+                                        <!-- Data diisi oleh history.js -->
+                                        <tr id="empty-state" class="hidden">
+                                            <td colspan="4" class="text-center py-12">
+                                                <i class="fas fa-box-open text-4xl text-[var(--muted)]"></i>
+                                                <p class="mt-4 text-sm font-medium text-[var(--muted)]">Tidak ada riwayat analisis ditemukan.</p>
+                                                <p class="mt-1 text-xs text-[var(--muted)]">Coba ubah filter Anda atau lakukan analisis baru.</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Pagination -->
+                <nav class="bg-[var(--bg)] px-4 py-3 flex items-center justify-between border-t border-[var(--border)] sm:px-6 mt-4 rounded-b-lg">
+                    <div class="hidden sm:block">
+                        <p class="text-sm text-[var(--muted)]">
+                            Menampilkan <span id="start-item" class="font-medium">0</span> sampai <span id="end-item" class="font-medium">0</span> dari <span id="total-items" class="font-medium">0</span> hasil
+                        </p>
+                    </div>
+                    <div class="flex-1 flex justify-between sm:justify-end">
+                        <button id="prev-page" class="relative inline-flex items-center px-4 py-2 border border-[var(--border)] text-sm font-medium rounded-md text-[var(--muted)] bg-[var(--bg)] hover:bg-[var(--bg-secondary)] disabled:opacity-50 disabled:cursor-not-allowed">
+                            Sebelumnya
+                        </button>
+                        <button id="next-page" class="ml-3 relative inline-flex items-center px-4 py-2 border border-[var(--border)] text-sm font-medium rounded-md text-[var(--muted)] bg-[var(--bg)] hover:bg-[var(--bg-secondary)] disabled:opacity-50 disabled:cursor-not-allowed">
+                            Berikutnya
+                        </button>
+                    </div>
+                </nav>
+            </main>
+        </div>
+    </div>
+
+    <!-- Skrip Utama -->
+    <script type="module" src="../js/main.js"></script>
+    <script type="module" src="../js/history.js"></script>
+</body>
+</html>

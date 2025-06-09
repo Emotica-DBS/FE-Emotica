@@ -1,0 +1,181 @@
+/* ==============================================
+main.css
+File ini adalah pusat dari semua styling untuk aplikasi Emotica.
+==============================================
+*/
+
+/* -----------------------------
+1. Variabel Warna & Tema (Theming)
+-----------------------------
+*/
+:root, :root[data-theme="light"] {
+    --bg: #FFFFFF;
+    --bg-secondary: #F9FAFB;
+    --text: #111827;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+    --accent: #6D28D9; /* Ungu tua untuk light mode */
+    --accent-light: #EDE9FE;
+    --positive: #10B981; /* Green */
+    --negative: #EF4444; /* Red */
+    --neutral:  #F59E0B; /* Amber */
+}
+
+:root[data-theme="dark"] {
+    --bg: #111827;
+    --bg-secondary: #1F2937;
+    --text: #F3F4F6;
+    --muted: #9CA3AF;
+    --border: #374151;
+    --accent: #A78BFA; /* Ungu muda untuk dark mode */
+    --accent-light: #3730A3;
+    --positive: #34D399;
+    --negative: #F87171;
+    --neutral:  #FBBF24;
+}
+
+/* -----------------------------
+2. Gaya Dasar (Base Styles)
+-----------------------------
+*/
+body { 
+    font-family: 'Poppins', sans-serif; 
+    background-color: var(--bg); 
+    color: var(--text); 
+    scroll-behavior: smooth;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* -----------------------------
+3. Komponen Navigasi
+-----------------------------
+*/
+.nav-link {
+    position: relative;
+    padding-bottom: 4px;
+    color: var(--muted);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    color: var(--text);
+}
+
+.nav-link.active {
+    color: var(--text) !important;
+    font-weight: 600;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* Disesuaikan agar pas dengan border header */
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--accent);
+    transition: background-color 0.3s;
+}
+
+
+/* -----------------------------
+4. Utilitas Lainnya
+-----------------------------
+*/
+.gradient-text {
+    background: linear-gradient(90deg, #8B5CF6 0%, #3B82F6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+[data-theme="dark"] .gradient-text {
+    background: linear-gradient(90deg, #A78BFA 0%, #60A5FA 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+/* -----------------------------
+5. Komponen Form
+-----------------------------
+*/
+.form-input-container {
+    position: relative;
+}
+
+.form-input-icon {
+    position: absolute;
+    top: 50%;
+    left: 1rem; /* 16px */
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none; /* Membuat ikon tidak bisa diklik */
+}
+
+.form-input {
+    padding-left: 2.75rem; /* Memberi ruang untuk ikon */
+}
+
+/* -----------------------------
+6. Komponen Tabel & Riwayat
+-----------------------------
+*/
+.sentiment-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
+    border-radius: 9999px;
+    text-transform: capitalize;
+}
+.sentiment-tag.positive {
+    background-color: var(--positive);
+    color: white;
+}
+.sentiment-tag.negative {
+    background-color: var(--negative);
+    color: white;
+}
+.sentiment-tag.neutral {
+    background-color: var(--neutral);
+    color: var(--text);
+}
+
+/* -----------------------------
+7. Komponen Dasbor
+----------------------------- */
+.progress-bar {
+    background-color: var(--border);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-bar-inner {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.5s ease-in-out;
+}
+
+/* ==============================================
+   BARU DITAMBAHKAN: Gaya untuk Kartu Tim
+==============================================
+*/
+.team-social-link {
+    color: var(--muted);
+    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.team-social-link:hover {
+    color: var(--accent);
+    transform: scale(1.1);
+}
+.team-social-link i {
+    font-size: 1.5rem; /* Ukuran ikon */
+    transition: color 0.2s ease-in-out;
+}
