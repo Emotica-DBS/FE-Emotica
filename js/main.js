@@ -1,8 +1,6 @@
 /**
  * main.js
  * File ini adalah titik masuk utama untuk semua skrip JavaScript.
- * Ia akan menginisialisasi komponen UI yang ada di semua halaman
- * dan memuat skrip spesifik untuk halaman tertentu secara dinamis.
  */
 
 // Menjalankan semua fungsi inisialisasi setelah DOM (halaman) selesai dimuat.
@@ -28,30 +26,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Menginisialisasi fungsionalitas untuk menu mobile (hamburger menu).
- * Mengatur buka/tutup menu saat tombol diklik atau saat pengguna mengklik di luar area menu.
  */
 function initializeMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenu = document.getElementById('mobileMenu') || document.getElementById('sidebar'); 
     
     if (!mobileMenuBtn || !mobileMenu) return;
 
     mobileMenuBtn.addEventListener('click', (event) => {
         event.stopPropagation();
-        mobileMenu.classList.toggle('hidden');
+        if(mobileMenu.id === 'sidebar'){
+            mobileMenu.classList.toggle('-translate-x-full');
+        } else {
+            mobileMenu.classList.toggle('hidden');
+        }
     });
 
     document.addEventListener('click', (e) => {
         if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            mobileMenu.classList.add('hidden');
+             if(mobileMenu.id === 'sidebar'){
+                mobileMenu.classList.add('-translate-x-full');
+            } else {
+                mobileMenu.classList.add('hidden');
+            }
         }
     });
 }
 
 /**
- * [PERBAIKAN UTAMA 1] Menginisialisasi SEMUA tombol ganti tema.
- * Fungsi ini diperbaiki untuk mencari tombol berdasarkan kelas (`.theme-toggle-btn`),
- * sehingga dapat berfungsi baik di navigasi desktop maupun mobile.
+ * Menginisialisasi SEMUA tombol ganti tema.
  */
 function initializeThemeToggle() {
     const themeToggles = document.querySelectorAll('.theme-toggle-btn');
@@ -79,48 +82,26 @@ function initializeThemeToggle() {
 }
 
 /**
- * [PERBAIKAN UTAMA 2] Menginisialisasi tautan navigasi secara cerdas.
- * Fungsi ini sekarang bisa menangani dua kasus:
- * 1. Menandai halaman aktif (misal: about.html).
- * 2. Menggunakan 'scroll-spy' untuk menandai bagian aktif saat pengguna scroll di halaman utama.
+ * [DISSEMPURNAKAN] Menandai tautan navigasi yang aktif secara konsisten.
+ * Fungsi ini sekarang hanya memeriksa 'data-page' di body dan mencocokkannya
+ * dengan href tautan. Logika scroll-spy yang kompleks telah dihapus.
  */
 function initializeNavLinks() {
     const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('main section[id]');
-    const currentPage = document.body.dataset.page;
+    const currentPage = document.body.dataset.page; 
 
-    const activateLink = (targetId) => {
-        navLinks.forEach(link => {
-            const linkHref = link.getAttribute('href');
-            const cleanHref = linkHref.startsWith('#') ? linkHref.substring(1) : linkHref.split('.')[0];
-            
-            // Logika untuk halaman statis
-            if (sections.length === 0) {
-                 link.classList.toggle('active', cleanHref === currentPage);
-            }
-            // Logika untuk scroll-spy di halaman utama
-            else {
-                link.classList.toggle('active', cleanHref === targetId);
-            }
-        });
-    };
-    
-    // Penanganan untuk halaman statis (bukan index.html)
-    if (sections.length === 0) {
-        activateLink(currentPage);
-        return; 
-    }
-
-    // Penanganan untuk scroll-spy di halaman utama (index.html)
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                activateLink(entry.target.getAttribute('id'));
-            }
-        });
-    }, { rootMargin: "-40% 0px -60% 0px" }); // Memicu saat section berada di tengah layar
-
-    sections.forEach(section => observer.observe(section));
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        // Mendapatkan nama halaman dari atribut href (misal: "about.html" -> "about")
+        const linkPage = link.getAttribute('href').split('.')[0];
+        
+        // Menangani kasus khusus untuk index.html ('home') dan halaman lainnya
+        if (currentPage === 'home' && (linkPage === 'index' || linkPage === '')) {
+             link.classList.add('active');
+        } else if (linkPage === currentPage) {
+            link.classList.add('active');
+        }
+    });
 }
 
 
@@ -141,9 +122,7 @@ function initializeProfileDropdown() {
 
     if(logoutBtn){
         logoutBtn.addEventListener('click', () => {
-            // NOTE: Di sini Anda akan memanggil fungsi logout dari auth.js
             console.log("Logout diklik!");
-            // import('./auth.js').then(auth => auth.handleLogout());
             localStorage.clear(); 
             window.location.href = 'login.html';
         });

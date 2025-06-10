@@ -23,16 +23,14 @@
 </head>
 <body class="min-h-screen antialiased" data-page="history">
     <div class="flex h-screen bg-[var(--bg-secondary)] overflow-hidden">
-        <!-- Sidebar untuk Mobile & Desktop -->
+        <!-- Sidebar -->
         <aside id="sidebar" class="w-64 flex-shrink-0 bg-[var(--bg)] border-r border-[var(--border)] flex flex-col transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-40 md:relative md:translate-x-0 -translate-x-full">
-            <!-- Logo -->
             <div class="h-16 flex items-center justify-center px-4 border-b border-[var(--border)] flex-shrink-0">
                  <a href="index.html" class="flex items-center gap-2">
                     <img src="../assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
                     <span class="text-xl font-bold text-[var(--text)]">Emotica</span>
                 </a>
             </div>
-            <!-- Menu Navigasi -->
             <nav class="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
                 <a href="dashboard.html" class="nav-link flex items-center px-2 py-2 text-sm font-medium rounded-md text-[var(--muted)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)]">
                     <i class="fas fa-home mr-3 text-lg w-6 text-center"></i> Dashboard
@@ -40,11 +38,7 @@
                 <a href="history.html" class="nav-link active flex items-center px-2 py-2 text-sm font-medium rounded-md bg-[var(--accent-light)] text-[var(--accent)]">
                     <i class="fas fa-history mr-3 text-lg w-6 text-center"></i> History
                 </a>
-                <a href="about.html" class="nav-link flex items-center px-2 py-2 text-sm font-medium rounded-md text-[var(--muted)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)]">
-                    <i class="fas fa-info-circle mr-3 text-lg w-6 text-center"></i> About
-                </a>
             </nav>
-            <!-- Profile & Logout -->
             <div class="px-2 py-4 border-t border-[var(--border)] flex-shrink-0">
                  <div id="profile-menu" class="relative">
                     <button id="profile-btn" class="w-full flex items-center p-2 rounded-md hover:bg-[var(--accent-light)] transition-colors">
@@ -62,7 +56,6 @@
 
         <!-- Konten Utama -->
         <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Header Konten (termasuk tombol menu mobile) -->
             <header class="w-full bg-[var(--bg)] border-b border-[var(--border)] flex-shrink-0">
                 <div class="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                     <div class="flex items-center">
@@ -72,11 +65,7 @@
                         <h1 class="text-xl font-semibold text-[var(--text)] ml-2 md:ml-0">Riwayat Analisis</h1>
                     </div>
                      <div class="flex items-center gap-2 sm:gap-4">
-                        <button id="ai-summary-btn" type="button" class="inline-flex items-center px-3 sm:px-4 py-2 border border-[var(--border)] rounded-md shadow-sm text-sm font-medium text-[var(--accent)] bg-[var(--accent-light)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)]">
-                            <i class="fas fa-wand-magic-sparkles -ml-1 mr-2"></i>
-                            <span class="hidden sm:inline">Ringkasan AI</span>
-                        </button>
-                        <a href="dashboard.html" class="hidden sm:inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[var(--accent)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)]">
+                        <a href="dashboard.html" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[var(--accent)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)]">
                             <i class="fas fa-plus -ml-1 mr-2"></i>
                             Analisis Baru
                         </a>
@@ -89,10 +78,6 @@
             </header>
             
             <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
-                 <!-- Area untuk Hasil AI Summary -->
-                <div id="ai-summary-container" class="hidden mb-6"></div>
-
-                 <!-- Filters and Search -->
                 <div class="bg-[var(--bg)] p-4 rounded-lg border border-[var(--border)] mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                         <div class="md:col-span-2">
@@ -121,7 +106,6 @@
                     </div>
                 </div>
                 
-                <!-- History Table -->
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -132,16 +116,13 @@
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Teks</th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Sentimen</th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Tanggal</th>
-                                            <th scope="col" class="relative px-6 py-3"><span class="sr-only">Aksi</span></th>
                                         </tr>
                                     </thead>
                                     <tbody id="history-table-body" class="bg-[var(--bg)] divide-y divide-[var(--border)]">
-                                        <!-- Data diisi oleh history.js -->
                                         <tr id="empty-state" class="hidden">
-                                            <td colspan="4" class="text-center py-12">
+                                            <td colspan="3" class="text-center py-12">
                                                 <i class="fas fa-box-open text-4xl text-[var(--muted)]"></i>
                                                 <p class="mt-4 text-sm font-medium text-[var(--muted)]">Tidak ada riwayat analisis ditemukan.</p>
-                                                <p class="mt-1 text-xs text-[var(--muted)]">Coba ubah filter Anda atau lakukan analisis baru.</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -151,7 +132,6 @@
                     </div>
                 </div>
 
-                 <!-- Pagination -->
                 <nav class="bg-[var(--bg)] px-4 py-3 flex items-center justify-between border-t border-[var(--border)] sm:px-6 mt-4 rounded-b-lg">
                     <div class="hidden sm:block">
                         <p class="text-sm text-[var(--muted)]">

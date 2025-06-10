@@ -1,34 +1,30 @@
 import { requireAuth, getCurrentUser } from './auth.js';
-import { showToast, debounce } from './utils.js';
+import { showToast, debounce, getInitials, formatDate } from './utils.js';
+import { getHistory, getStats, addAnalysis } from './store.js';
 
-// Fungsi utama yang dijalankan saat halaman dasbor dimuat
+let chartInstance = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    requireAuth('login.html'); 
+    initializeDashboard();
+});
+
 function initializeDashboard() {
-    requireAuth('../pages/login.html'); // Pastikan pengguna sudah login
-    
     const currentUser = getCurrentUser();
     if (currentUser) {
         updateUserInfo(currentUser);
     }
-    
+    chartInstance = initSentimentChart();
+    loadDashboardData();
     initTextAnalysis();
-    const chart = initSentimentChart();
-    
-    // Muat data awal (menggunakan data dummy)
-    loadDashboardData(chart);
 }
 
-// Memperbarui UI dengan informasi pengguna
 function updateUserInfo(user) {
-    const userGreeting = document.getElementById('user-greeting');
-    const userName = document.getElementById('user-name');
-    const userInitial = document.getElementById('user-initial');
-
-    if (userGreeting) userGreeting.textContent = `Selamat Datang, ${user.name || 'Pengguna'}!`;
-    if (userName) userName.textContent = user.name || 'Pengguna';
-    if (userInitial) userInitial.textContent = (user.name || 'U').charAt(0).toUpperCase();
+    document.getElementById('user-greeting').textContent = `Selamat Datang, ${user.name || 'Pengguna'}!`;
+    document.getElementById('user-name').textContent = user.name || 'Pengguna';
+    document.getElementById('user-initial').textContent = getInitials(user.name || 'U');
 }
 
-// Inisialisasi fungsionalitas area analisis teks
 function initTextAnalysis() {
     const textInput = document.getElementById('text-to-analyze');
     const charCount = document.getElementById('char-count');
@@ -39,74 +35,40 @@ function initTextAnalysis() {
             charCount.textContent = textInput.value.length;
         }, 200));
     }
-
-    if (analysisForm) {
-        analysisForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            handleAnalyzeText();
-        });
-    }
+    analysisForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleAnalyzeText();
+    });
 }
 
-// Inisialisasi diagram lingkaran sentimen
 function initSentimentChart() {
     const ctx = document.getElementById('sentiment-chart');
     if (!ctx) return null;
-
+    
     const style = getComputedStyle(document.documentElement);
-    const positiveColor = style.getPropertyValue('--positive').trim();
-    const neutralColor = style.getPropertyValue('--neutral').trim();
-    const negativeColor = style.getPropertyValue('--negative').trim();
-    const bgColor = style.getPropertyValue('--bg').trim();
-
     return new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: ['Positif', 'Netral', 'Negatif'],
             datasets: [{
-                data: [1, 1, 1], // Data awal
-                backgroundColor: [positiveColor, neutralColor, negativeColor],
-                borderColor: bgColor,
+                data: [1, 1, 1],
+                backgroundColor: [style.getPropertyValue('--positive').trim(), style.getPropertyValue('--neutral').trim(), style.getPropertyValue('--negative').trim()],
+                borderColor: style.getPropertyValue('--bg').trim(),
                 borderWidth: 2,
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '75%',
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: context => ` ${context.label}: ${context.raw.toFixed(1)}%`
-                    }
-                }
-            }
+            responsive: true, maintainAspectRatio: false, cutout: '75%',
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: context => ` ${context.label}: ${context.raw.toFixed(1)}%` } } }
         }
     });
 }
 
-// Memuat semua data untuk dasbor (menggunakan data dummy)
-async function loadDashboardData(chart) {
-    try {
-        const dummyStats = {
-            sentimentDistribution: { positive: 57, neutral: 25, negative: 18 }
-        };
-        const dummyHistory = [
-            { text: "Sangat puas dengan pelayanannya, cepat dan ramah!", sentiment: { type: 'positive' }, createdAt: new Date() },
-            { text: "Baterai perangkat ini cepat sekali habis, sedikit mengecewakan.", sentiment: { type: 'negative' }, createdAt: new Date(Date.now() - 86400000 * 1) },
-            { text: "Laporan mingguan sudah saya kirimkan via email.", sentiment: { type: 'neutral' }, createdAt: new Date(Date.now() - 86400000 * 2) },
-        ];
-
-        updateStatsUI(dummyStats, chart);
-        updateAnalysisHistoryUI(dummyHistory);
-
-    } catch (error) {
-        showToast('Gagal memuat data dasbor.', 'error');
-    }
+function loadDashboardData() {
+    updateStatsUI();
+    updateAnalysisHistoryUI();
 }
 
-// Menangani logika saat tombol "Analisis" diklik
 async function handleAnalyzeText() {
     const textInput = document.getElementById('text-to-analyze');
     const text = textInput.value.trim();
@@ -117,31 +79,32 @@ async function handleAnalyzeText() {
         return;
     }
     
-    // Tampilkan loading state
-    if(submitButton) {
-        submitButton.disabled = true;
-        submitButton.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menganalisis...`;
-    }
+    submitButton.disabled = true;
+    submitButton.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menganalisis...`;
 
-    // Simulasi panggilan API
     setTimeout(() => {
         const dummyResult = {
             sentiment: { type: Math.random() > 0.66 ? 'positive' : (Math.random() > 0.33 ? 'neutral' : 'negative'), score: Math.random() },
             suggestion: "Mungkin bisa coba sampaikan seperti ini: 'Saya menghargai usahanya, namun ada beberapa hal yang perlu kita diskusikan lebih lanjut untuk perbaikan.'"
         };
-        updateAnalysisResultsUI(dummyResult);
+        
+        const newAnalysis = { id: `hist_${Date.now()}`, text, ...dummyResult, createdAt: new Date().toISOString() };
+        
+        addAnalysis(newAnalysis);
+        
+        updateAnalysisResultsUI(newAnalysis);
+        updateAnalysisHistoryUI();           
+        updateStatsUI();                     
+        
         showToast('Analisis selesai!', 'success');
         
-        // Kembalikan state tombol
-        if(submitButton) {
-            submitButton.disabled = false;
-            submitButton.innerHTML = `<i class="fas fa-magic mr-2"></i> Analisis Sekarang`;
-        }
-
+        submitButton.disabled = false;
+        submitButton.innerHTML = `<i class="fas fa-magic mr-2"></i> Analisis Sekarang`;
+        textInput.value = ''; 
+        document.getElementById('char-count').textContent = '0';
     }, 1500);
 }
 
-// Memperbarui UI dengan hasil analisis
 function updateAnalysisResultsUI(data) {
     const resultsSection = document.getElementById('analysis-results');
     const sentimentResult = document.getElementById('sentiment-result');
@@ -159,11 +122,7 @@ function updateAnalysisResultsUI(data) {
     confidenceBar.style.width = `${scorePercent}%`;
     confidenceBar.style.backgroundColor = `var(--${sentimentType})`;
 
-    const icons = {
-        positive: 'fa-smile-beam',
-        neutral: 'fa-meh',
-        negative: 'fa-frown'
-    };
+    const icons = { positive: 'fa-smile-beam', neutral: 'fa-meh', negative: 'fa-frown' };
     sentimentIconContainer.innerHTML = `<i class="fas ${icons[sentimentType]} text-3xl text-[var(--${sentimentType})]"></i>`;
 
     if (sentimentType === 'negative' && data.suggestion) {
@@ -171,13 +130,14 @@ function updateAnalysisResultsUI(data) {
     } else {
         suggestionContainer.textContent = 'Teks Anda sudah baik! Tidak ada saran saat ini.';
     }
-
     resultsSection.classList.remove('hidden');
 }
 
-// Memperbarui UI statistik
-function updateStatsUI(stats, chart) {
-    if (!chart || !stats) return;
+function updateStatsUI() {
+    const stats = getStats();
+    if (!chartInstance || !stats) return;
+
+    document.getElementById('total-analyses').textContent = stats.totalAnalyses;
     
     const { positive, neutral, negative } = stats.sentimentDistribution;
     const total = positive + neutral + negative || 1; 
@@ -186,37 +146,35 @@ function updateStatsUI(stats, chart) {
     const neutralPercent = (neutral / total * 100);
     const negativePercent = (negative / total * 100);
 
-    chart.data.datasets[0].data = [positivePercent, neutralPercent, negativePercent];
-    chart.update();
+    chartInstance.data.datasets[0].data = [positivePercent, neutralPercent, negativePercent];
+    chartInstance.update();
 
     document.getElementById('chart-positive').textContent = `${positivePercent.toFixed(0)}%`;
     document.getElementById('chart-neutral').textContent = `${neutralPercent.toFixed(0)}%`;
     document.getElementById('chart-negative').textContent = `${negativePercent.toFixed(0)}%`;
 }
 
-// Memperbarui UI riwayat analisis terakhir
-function updateAnalysisHistoryUI(history) {
+function updateAnalysisHistoryUI() {
+    const history = getHistory();
     const listElement = document.getElementById('recent-analyses');
     if (!listElement) return;
 
-    if (history.length === 0) {
+    const recentHistory = history.slice(0, 3);
+
+    if (recentHistory.length === 0) {
         listElement.innerHTML = `<li class="py-3 text-center text-sm text-[var(--muted)]">Tidak ada riwayat.</li>`;
         return;
     }
 
-    listElement.innerHTML = history.map(item => `
+    listElement.innerHTML = recentHistory.map(item => `
         <li class="py-3 flex items-center space-x-3">
-            <span class="h-8 w-8 rounded-full flex items-center justify-center bg-[var(--${item.sentiment.type})] bg-opacity-20">
+            <span class="h-8 w-8 rounded-full flex items-center justify-center bg-[var(--${item.sentiment.type})] bg-opacity-20 flex-shrink-0">
                 <i class="fas ${item.sentiment.type === 'positive' ? 'fa-smile' : item.sentiment.type === 'negative' ? 'fa-frown' : 'fa-meh'} text-[var(--${item.sentiment.type})]"></i>
             </span>
             <div class="flex-1 min-w-0">
                 <p class="text-sm text-[var(--text)] truncate">${item.text}</p>
-                <p class="text-xs text-[var(--muted)]">${new Date(item.createdAt).toLocaleDateString('id-ID')}</p>
+                <p class="text-xs text-[var(--muted)]">${formatDate(item.createdAt)}</p>
             </div>
         </li>
     `).join('');
 }
-
-
-// Jalankan inisialisasi saat dokumen siap
-document.addEventListener('DOMContentLoaded', initializeDashboard);

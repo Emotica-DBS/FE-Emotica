@@ -7,11 +7,13 @@
     
     <meta name="description" content="Pahami emosi di balik teks dengan Emotica. Alat analisis sentimen berbasis AI untuk membantu Anda berkomunikasi dengan lebih baik.">
     <meta name="theme-color" content="#6D28D9">
-    <link rel="manifest" href="../manifest.json">
-    <link rel="icon" href="../assets/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+    
+    <!-- [PERBAIKAN] Semua path diubah menjadi absolut dari root proyek -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="/style/main.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,20 +25,20 @@
     <header class="bg-[var(--bg)]/80 border-b border-[var(--border)] sticky top-0 z-50 backdrop-blur-sm transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="index.html" class="flex-shrink-0 flex items-center gap-2">
-                    <img src="../assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
+                <a href="/" class="flex-shrink-0 flex items-center gap-2">
+                    <img src="/assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
                     <span class="text-xl font-bold text-[var(--text)]">Emotica</span>
                 </a>
-                <!-- [PERBAIKAN] Navbar sekarang konsisten dengan halaman lain -->
+                <!-- [PERBAIKAN] Navbar sekarang menggunakan path absolut -->
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Home</a>
-                    <a href="dashboard.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Dashboard</a>
-                    <a href="history.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">History</a>
-                    <a href="about.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">About</a>
+                    <a href="/" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Home</a>
+                    <a href="/pages/dashboard.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">Dashboard</a>
+                    <a href="/pages/history.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">History</a>
+                    <a href="/pages/about.html" class="nav-link relative text-[var(--muted)] hover:text-[var(--text)] transition-colors">About</a>
                 </nav>
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="login.html" class="px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Login</a>
-                    <a href="register.html" class="px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90 transition-opacity">Sign Up</a>
+                    <a href="/pages/login.html" class="px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Login</a>
+                    <a href="/pages/register.html" class="px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90 transition-opacity">Sign Up</a>
                     <button class="theme-toggle-btn p-2 rounded-full text-[var(--muted)] hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Ganti Tema">
                         <svg class="sun-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                         <svg class="moon-icon w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
@@ -51,15 +53,15 @@
         </div>
         <div id="mobileMenu" class="md:hidden hidden bg-[var(--bg)] border-t border-[var(--border)]">
              <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">Home</a>
-                <a href="dashboard.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">Dashboard</a>
-                <a href="history.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">History</a>
-                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">About</a>
+                <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">Home</a>
+                <a href="/pages/dashboard.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">Dashboard</a>
+                <a href="/pages/history.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">History</a>
+                <a href="/pages/about.html" class="block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--accent-light)]">About</a>
                 <div class="pt-4 pb-3 border-t border-[var(--border)] mt-4">
                     <div class="flex items-center justify-between px-2">
                         <div class="flex items-center space-x-2">
-                           <a href="login.html" class="px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 border border-[var(--border)]">Login</a>
-                           <a href="register.html" class="px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90">Sign Up</a>
+                           <a href="/pages/login.html" class="px-4 py-2 text-sm font-medium text-[var(--text)] rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 border border-[var(--border)]">Login</a>
+                           <a href="/pages/register.html" class="px-4 py-2 text-sm font-medium text-white bg-[var(--accent)] rounded-md hover:opacity-90">Sign Up</a>
                         </div>
                         <button class="theme-toggle-btn p-2 rounded-full text-[var(--muted)] hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Ganti Tema">
                             <svg class="sun-icon w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
@@ -72,31 +74,29 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
+        <!-- Konten Halaman Depan Anda -->
         <section id="home" class="relative overflow-hidden bg-[var(--bg)]">
-            <div class="max-w-7xl mx-auto">
-                <div class="relative z-10 py-16 sm:py-24 lg:py-32">
-                    <div class="lg:grid lg:grid-cols-12 lg:gap-8 lg:items-center px-4 sm:px-6 lg:px-8">
-                        <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-                            <h1 class="text-4xl tracking-tight font-extrabold text-[var(--text)] sm:text-5xl md:text-6xl">
-                                <span class="block">Pahami Emosi</span>
-                                <span class="block text-[var(--accent)]">di Balik Teks</span>
-                            </h1>
-                            <p class="mt-3 text-base text-[var(--muted)] sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                Dapatkan analisis sentimen instan untuk teks apa pun dengan AI kami yang canggih. Pahami nada emosional dan konteks di balik kata-kata untuk berkomunikasi lebih baik.
-                            </p>
-                            <div class="mt-8 sm:flex sm:justify-center lg:justify-start">
-                                <div class="rounded-md shadow">
-                                    <a href="dashboard.html" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[var(--accent)] hover:opacity-90 transition-opacity md:py-4 md:text-lg md:px-10">Mulai Sekarang</a>
-                                </div>
-                                <div class="mt-3 sm:mt-0 sm:ml-3">
-                                    <a href="about.html" class="w-full flex items-center justify-center px-8 py-3 border-2 border-[var(--accent)] text-base font-medium rounded-md text-[var(--accent)] hover:bg-[var(--accent-light)] md:py-4 md:text-lg md:px-10">Tentang Kami</a>
-                                </div>
+            <div class="max-w-7xl mx-auto py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8">
+                <div class="lg:grid lg:grid-cols-12 lg:gap-8 lg:items-center">
+                    <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
+                        <h1 class="text-4xl tracking-tight font-extrabold text-[var(--text)] sm:text-5xl md:text-6xl">
+                            <span class="block">Pahami Emosi</span>
+                            <span class="block text-[var(--accent)]">di Balik Teks</span>
+                        </h1>
+                        <p class="mt-3 text-base text-[var(--muted)] sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                            Dapatkan analisis sentimen instan untuk teks apa pun dengan AI kami yang canggih. Pahami nada emosional dan konteks di balik kata-kata untuk berkomunikasi lebih baik.
+                        </p>
+                        <div class="mt-8 sm:flex sm:justify-center lg:justify-start">
+                            <div class="rounded-md shadow">
+                                <a href="/pages/dashboard.html" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[var(--accent)] hover:opacity-90 transition-opacity md:py-4 md:text-lg md:px-10">Mulai Sekarang</a>
+                            </div>
+                            <div class="mt-3 sm:mt-0 sm:ml-3">
+                                <a href="/pages/about.html" class="w-full flex items-center justify-center px-8 py-3 border-2 border-[var(--accent)] text-base font-medium rounded-md text-[var(--accent)] hover:bg-[var(--accent-light)] md:py-4 md:text-lg md:px-10">Tentang Kami</a>
                             </div>
                         </div>
-                        <div class="mt-12 relative lg:mt-0 lg:col-span-6 flex items-center justify-center">
-                            <img src="../assets/ilustrasi.svg" alt="Ilustrasi Analisis Emosi" class="w-full h-auto max-w-lg mx-auto">
-                        </div>
+                    </div>
+                    <div class="mt-12 relative lg:mt-0 lg:col-span-6 flex items-center justify-center">
+                        <img src="/assets/ilustrasi.svg" alt="Ilustrasi Analisis Emosi" class="w-full h-auto max-w-lg mx-auto">
                     </div>
                 </div>
             </div>

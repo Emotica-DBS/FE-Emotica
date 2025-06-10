@@ -125,6 +125,18 @@ body {
 6. Komponen Tabel & Riwayat
 -----------------------------
 */
+.progress-bar {
+    background-color: var(--border);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-bar-inner {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.5s ease-in-out;
+}
+
 .sentiment-tag {
     display: inline-flex;
     align-items: center;
@@ -148,23 +160,9 @@ body {
     color: var(--text);
 }
 
-/* -----------------------------
-7. Komponen Dasbor
------------------------------ */
-.progress-bar {
-    background-color: var(--border);
-    border-radius: 9999px;
-    overflow: hidden;
-}
-
-.progress-bar-inner {
-    height: 100%;
-    border-radius: 9999px;
-    transition: width 0.5s ease-in-out;
-}
 
 /* ==============================================
-   BARU DITAMBAHKAN: Gaya untuk Kartu Tim
+ Gaya untuk Kartu Tim
 ==============================================
 */
 .team-social-link {

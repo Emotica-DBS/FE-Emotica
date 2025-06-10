@@ -70,10 +70,6 @@ function createToastContainer() {
 
 /**
  * Fungsi debounce untuk membatasi frekuensi pemanggilan sebuah fungsi.
- * Berguna untuk event seperti 'input' atau 'resize'.
- * @param {Function} func - Fungsi yang akan di-debounce.
- * @param {number} wait - Waktu tunggu dalam milidetik.
- * @returns {Function} - Fungsi yang sudah di-debounce.
  */
 export function debounce(func, wait) {
     let timeout;
@@ -89,8 +85,6 @@ export function debounce(func, wait) {
 
 /**
  * Memformat tanggal menjadi string yang mudah dibaca.
- * @param {Date|string} date - Objek tanggal atau string tanggal.
- * @returns {string} - String tanggal yang sudah diformat.
  */
 export function formatDate(date) {
     const d = new Date(date);
@@ -103,8 +97,6 @@ export function formatDate(date) {
 
 /**
  * Mengambil inisial dari sebuah nama.
- * @param {string} name - Nama lengkap.
- * @returns {string} - Inisial nama (maksimal 2 huruf).
  */
 export function getInitials(name) {
     if (!name || typeof name !== 'string') return 'U';
@@ -117,8 +109,6 @@ export function getInitials(name) {
 
 /**
  * Memvalidasi format alamat email.
- * @param {string} email - Email yang akan divalidasi.
- * @returns {boolean} - True jika email valid, false jika tidak.
  */
 export function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -127,8 +117,6 @@ export function validateEmail(email) {
 
 /**
  * Memvalidasi kekuatan sebuah kata sandi.
- * @param {string} password - Kata sandi yang akan divalidasi.
- * @returns {{isValid: boolean, message: string}} - Objek hasil validasi.
  */
 export function validatePassword(password) {
     if (password.length < 8) {

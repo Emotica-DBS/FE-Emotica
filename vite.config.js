@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  root: 'pages',
+  // Hapus baris 'root'
   build: {
-    outDir: '../dist',
+    outDir: 'dist', // Build output akan ada di dalam frontend/dist
     emptyOutDir: true,
   },
   server: {
