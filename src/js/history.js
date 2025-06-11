@@ -1,19 +1,24 @@
-import { requireAuth, getCurrentUser } from './auth.js';
+import { requireAuth, getCurrentUser, getAuthHeaders, startUserActivityDetector } from './auth.js';
 import { showToast, debounce, formatDate, getInitials } from './utils.js';
-import { getHistory } from './store.js';
+import { getHistory, fetchAndSetHistory } from './store.js';
 
 let filteredAnalyses = [];
 let currentPage = 1;
 const itemsPerPage = 10;
 
-document.addEventListener('DOMContentLoaded', () => {
-    requireAuth('../pages/login.html');
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-        updateUserInfo(currentUser);
-    }
-    initializeHistoryPage();
+// Fungsi utama yang dijalankan saat halaman dimuat
+document.addEventListener('DOMContentLoaded', async () => {
+  // Langkah 1: Pastikan pengguna sudah login.
+  requireAuth('../pages/login.html');
+  startUserActivityDetector(); 
+  
+  // Langkah 2: Tunggu (await) sampai data riwayat selesai diambil dari server.
+  await fetchAndSetHistory(); 
+  
+  // Langkah 3: Setelah data siap, baru panggil fungsi untuk menampilkan semuanya
+  initializeHistoryPage(); 
 });
+
 
 function updateUserInfo(user) {
     const userName = document.getElementById('user-name');
@@ -23,6 +28,11 @@ function updateUserInfo(user) {
 }
 
 function initializeHistoryPage() {
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+        updateUserInfo(currentUser);
+    }
+
     setupEventListeners();
     applyFiltersAndSort();
 }

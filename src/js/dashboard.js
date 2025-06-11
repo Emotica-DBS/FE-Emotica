@@ -1,14 +1,18 @@
-import { requireAuth, getCurrentUser, getAuthHeaders } from './auth.js';
+import { requireAuth, getCurrentUser, getAuthHeaders, startUserActivityDetector } from './auth.js';
 import { showToast, debounce, getInitials, formatDate } from './utils.js';
-// [PERBAIKAN UTAMA] Impor data dan fungsi dari store.js
-import { getHistory, getStats, addAnalysis } from './store.js';
-
+import { getHistory, getStats, addAnalysis, fetchAndSetHistory } from './store.js'; 
 let chartInstance = null;
 
-// Fungsi utama yang dijalankan saat halaman dasbor dimuat
-document.addEventListener('DOMContentLoaded', () => {
-    requireAuth('../pages/login.html'); 
-    initializeDashboard();
+document.addEventListener('DOMContentLoaded', async () => {
+  // Langkah 1: Pastikan pengguna sudah login.
+  requireAuth('../pages/login.html');
+   startUserActivityDetector(); 
+   
+  // Langkah 2: Tunggu (await) sampai data riwayat selesai diambil dari server.
+  await fetchAndSetHistory(); 
+  
+  // Langkah 3: Setelah data siap, baru panggil fungsi untuk menampilkan semuanya.
+  initializeDashboard();
 });
 
 /**
@@ -66,7 +70,7 @@ function initSentimentChart() {
         data: {
             labels: ['Positif', 'Negatif'],
             datasets: [{
-                data: [50, 50], // Data awal
+                data: [50, 50],
                 backgroundColor: [style.getPropertyValue('--positive').trim(), style.getPropertyValue('--negative').trim()],
                 borderColor: style.getPropertyValue('--bg').trim(),
                 borderWidth: 2,
@@ -111,8 +115,8 @@ async function handleAnalyzeText() {
             return;
         }
 
-        // Panggilan API ke backend Flask
-        const response = await fetch('http://localhost:5001/api/analyze', {
+        // Panggilan API ke backend Flask yang sudah online
+        const response = await fetch('https://be-emotica.up.railway.app/api/analyze', {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({ text })
@@ -174,7 +178,6 @@ function updateAnalysisResultsUI(data) {
     const icons = { positif: 'fa-smile-beam', negatif: 'fa-frown' };
     sentimentIconContainer.innerHTML = `<i class="fas ${icons[sentimentType]} text-3xl text-[var(--${sentimentType})]"></i>`;
 
-    // Logika untuk saran kalimat akan kita tambahkan nanti dengan Gemini
     if (sentimentType === 'negatif') {
         suggestionContainer.textContent = "Saran kalimat akan diimplementasikan nanti.";
     } else {
@@ -187,7 +190,7 @@ function updateAnalysisResultsUI(data) {
  * Memperbarui UI statistik dan diagram.
  */
 function updateStatsUI() {
-    const stats = getStats(); // Ambil data dari store
+    const stats = getStats();
     if (!chartInstance || !stats) return;
 
     const totalAnalysesEl = document.getElementById('total-analyses');
@@ -210,7 +213,7 @@ function updateStatsUI() {
  * Memperbarui UI daftar riwayat terakhir di dasbor.
  */
 function updateAnalysisHistoryUI() {
-    const history = getHistory(); // Ambil data dari store
+    const history = getHistory();
     const listElement = document.getElementById('recent-analyses');
     if (!listElement) return;
 
