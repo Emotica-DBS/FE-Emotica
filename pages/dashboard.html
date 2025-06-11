@@ -7,12 +7,12 @@
     
     <meta name="description" content="Analisis sentimen teks, lihat statistik, dan kelola riwayat Anda di dasbor Emotica.">
     <meta name="theme-color" content="#6D28D9">
-    <link rel="manifest" href="../manifest.json">
-    <link rel="icon" href="../assets/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 
     <!-- Stylesheet Utama & Font -->
-    <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="/style/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,16 +27,16 @@
         <!-- Sidebar -->
         <aside id="sidebar" class="w-64 flex-shrink-0 bg-[var(--bg)] border-r border-[var(--border)] flex flex-col transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-40 md:relative md:translate-x-0 -translate-x-full">
             <div class="h-16 flex items-center justify-center px-4 border-b border-[var(--border)] flex-shrink-0">
-                 <a href="index.html" class="flex items-center gap-2">
-                    <img src="../assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
+                 <a href="/index.html" class="flex items-center gap-2">
+                    <img src="/assets/favicon.png" alt="Emotica Logo" class="h-8 w-auto">
                     <span class="text-xl font-bold text-[var(--text)]">Emotica</span>
                 </a>
             </div>
             <nav class="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
-                <a href="dashboard.html" class="nav-link active flex items-center px-2 py-2 text-sm font-medium rounded-md bg-[var(--accent-light)] text-[var(--accent)]">
+                <a href="/pages/dashboard.html" class="nav-link active flex items-center px-2 py-2 text-sm font-medium rounded-md bg-[var(--accent-light)] text-[var(--accent)]">
                     <i class="fas fa-home mr-3 text-lg w-6 text-center"></i> Dashboard
                 </a>
-                <a href="history.html" class="nav-link flex items-center px-2 py-2 text-sm font-medium rounded-md text-[var(--muted)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)]">
+                <a href="/pages/history.html" class="nav-link flex items-center px-2 py-2 text-sm font-medium rounded-md text-[var(--muted)] hover:bg-[var(--accent-light)] hover:text-[var(--accent)]">
                     <i class="fas fa-history mr-3 text-lg w-6 text-center"></i> History
                 </a>
             </nav>
@@ -100,9 +100,7 @@
                                 </div>
                                 <div>
                                     <p class="text-sm font-medium text-[var(--muted)] mb-1">Tingkat Kepercayaan</p>
-                                    <div class="progress-bar h-4 w-full">
-                                        <div id="confidence-bar" class="progress-bar-inner bg-[var(--accent)]"></div>
-                                    </div>
+                                    <div class="progress-bar h-4 w-full"><div id="confidence-bar" class="progress-bar-inner bg-[var(--accent)]"></div></div>
                                     <p id="confidence-percent" class="mt-1 text-sm text-right font-semibold text-[var(--accent)]">0%</p>
                                 </div>
                             </div>
@@ -121,14 +119,13 @@
                              </div>
                              <div class="mt-4 space-y-2">
                                 <div class="flex justify-between text-sm"><span class="flex items-center"><span class="h-2 w-2 rounded-full bg-[var(--positive)] mr-2"></span>Positif</span><span id="chart-positive" class="font-semibold">0%</span></div>
-                                <div class="flex justify-between text-sm"><span class="flex items-center"><span class="h-2 w-2 rounded-full bg-[var(--neutral)] mr-2"></span>Netral</span><span id="chart-neutral" class="font-semibold">0%</span></div>
                                 <div class="flex justify-between text-sm"><span class="flex items-center"><span class="h-2 w-2 rounded-full bg-[var(--negative)] mr-2"></span>Negatif</span><span id="chart-negative" class="font-semibold">0%</span></div>
                              </div>
                         </section>
                         <section class="bg-[var(--bg)] p-6 rounded-lg shadow-md border border-[var(--border)]">
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="text-lg font-semibold text-[var(--text)]">Analisis Terakhir</h3>
-                                <a href="history.html" class="text-sm font-medium text-[var(--accent)] hover:underline">Lihat Semua</a>
+                                <a href="/pages/history.html" class="text-sm font-medium text-[var(--accent)] hover:underline">Lihat Semua</a>
                             </div>
                             <ul id="recent-analyses" class="divide-y divide-[var(--border)]">
                                 <li class="py-3 text-center text-sm text-[var(--muted)]">Tidak ada riwayat.</li>
@@ -139,7 +136,7 @@
             </main>
         </div>
     </div>
-    <script type="module" src="../js/main.js"></script>
-    <script type="module" src="../js/dashboard.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/dashboard.js"></script>
 </body>
 </html>

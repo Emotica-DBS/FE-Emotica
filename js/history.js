@@ -1,6 +1,5 @@
 import { requireAuth, getCurrentUser } from './auth.js';
 import { showToast, debounce, formatDate, getInitials } from './utils.js';
-// [PERBAIKAN] Impor data dari store.js
 import { getHistory } from './store.js';
 
 let filteredAnalyses = [];
@@ -8,7 +7,7 @@ let currentPage = 1;
 const itemsPerPage = 10;
 
 document.addEventListener('DOMContentLoaded', () => {
-    requireAuth('login.html');
+    requireAuth('../pages/login.html');
     const currentUser = getCurrentUser();
     if (currentUser) {
         updateUserInfo(currentUser);
@@ -25,7 +24,7 @@ function updateUserInfo(user) {
 
 function initializeHistoryPage() {
     setupEventListeners();
-    applyFiltersAndSort(); // Langsung filter dan render data dari store saat halaman dimuat
+    applyFiltersAndSort();
 }
 
 function setupEventListeners() {
@@ -37,7 +36,7 @@ function setupEventListeners() {
 }
 
 function applyFiltersAndSort() {
-    const allAnalyses = getHistory(); // Selalu ambil data terbaru dari store
+    const allAnalyses = getHistory();
     const sentiment = document.getElementById('sentiment-filter').value;
     const searchQuery = document.getElementById('search-history').value.toLowerCase();
     const sortBy = document.getElementById('sort-by').value;
@@ -47,9 +46,14 @@ function applyFiltersAndSort() {
         (item.text.toLowerCase().includes(searchQuery))
     );
 
-    tempAnalyses.sort((a, b) => 
-        sortBy === 'oldest' ? new Date(a.createdAt) - new Date(b.createdAt) : new Date(b.createdAt) - new Date(a.createdAt)
-    );
+    // [PERBAIKAN] Logika sorting sekarang membaca nilai dari dropdown
+    tempAnalyses.sort((a, b) => {
+        if (sortBy === 'oldest') {
+            return new Date(a.createdAt) - new Date(b.createdAt);
+        }
+        // Default adalah 'newest'
+        return new Date(b.createdAt) - new Date(a.createdAt);
+    });
     
     filteredAnalyses = tempAnalyses;
     currentPage = 1;
@@ -59,28 +63,35 @@ function applyFiltersAndSort() {
 
 function renderTable() {
     const tableBody = document.getElementById('history-table-body');
-    const emptyStateRow = document.getElementById('empty-state');
     if (!tableBody) return;
 
     tableBody.innerHTML = '';
-    
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedItems = filteredAnalyses.slice(startIndex, startIndex + itemsPerPage);
 
     if (paginatedItems.length === 0) {
-        if(emptyStateRow) {
-            const newEmptyRow = emptyStateRow.cloneNode(true);
-            newEmptyRow.classList.remove('hidden');
-            tableBody.appendChild(newEmptyRow);
+        const emptyStateRow = document.getElementById('empty-state');
+        if (emptyStateRow) {
+             tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-12"><div class="flex flex-col items-center"><i class="fas fa-box-open text-4xl text-[var(--muted)]"></i><p class="mt-4 text-sm font-medium text-[var(--muted)]">Tidak ada riwayat ditemukan.</p></div></td></tr>`;
         }
     } else {
+        const sentimentEmojis = {
+            positif: '😊',
+            negatif: '😠',
+        };
+
         paginatedItems.forEach(item => {
             const row = document.createElement('tr');
             row.className = 'hover:bg-[var(--bg-secondary)] transition-colors';
             row.innerHTML = `
                 <td class="px-6 py-4"><div class="text-sm text-[var(--text)] line-clamp-2">${item.text}</div></td>
-                <td class="px-6 py-4 whitespace-nowrap"><span class="sentiment-tag ${item.sentiment.type}">${item.sentiment.type}</span></td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--muted)]">${formatDate(item.createdAt)}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="sentiment-tag ${item.sentiment.type}">
+                        ${sentimentEmojis[item.sentiment.type] || ''} 
+                        <span class="ml-1.5">${item.sentiment.type}</span>
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-[var(--muted)]">${formatDate(new Date(item.createdAt))}</td>
             `;
             tableBody.appendChild(row);
         });

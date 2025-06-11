@@ -5,6 +5,7 @@
  */
 import { showToast } from './utils.js';
 
+
 // Pastikan ini sesuai dengan alamat backend Flask Anda
 const API_BASE_URL = 'http://localhost:5001/api';
 
@@ -137,4 +138,13 @@ export function handleLogout() {
     clearUserSession();
     showToast('Berhasil logout.', 'info');
     setTimeout(() => { window.location.href = 'login.html'; }, 1000);
+}
+
+export function getAuthHeaders() {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    };
 }

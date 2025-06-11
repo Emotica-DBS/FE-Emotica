@@ -1,30 +1,42 @@
-import { requireAuth, getCurrentUser } from './auth.js';
+import { requireAuth, getCurrentUser, getAuthHeaders } from './auth.js';
 import { showToast, debounce, getInitials, formatDate } from './utils.js';
+// [PERBAIKAN UTAMA] Impor data dan fungsi dari store.js
 import { getHistory, getStats, addAnalysis } from './store.js';
 
 let chartInstance = null;
 
+// Fungsi utama yang dijalankan saat halaman dasbor dimuat
 document.addEventListener('DOMContentLoaded', () => {
-    requireAuth('login.html'); 
+    requireAuth('../pages/login.html'); 
     initializeDashboard();
 });
 
+/**
+ * Menginisialisasi semua komponen di dasbor.
+ */
 function initializeDashboard() {
     const currentUser = getCurrentUser();
     if (currentUser) {
         updateUserInfo(currentUser);
     }
+    
     chartInstance = initSentimentChart();
-    loadDashboardData();
+    loadDashboardData(); // Memuat data awal dari store
     initTextAnalysis();
 }
 
+/**
+ * Memperbarui UI dengan informasi pengguna yang sedang login.
+ */
 function updateUserInfo(user) {
     document.getElementById('user-greeting').textContent = `Selamat Datang, ${user.name || 'Pengguna'}!`;
     document.getElementById('user-name').textContent = user.name || 'Pengguna';
     document.getElementById('user-initial').textContent = getInitials(user.name || 'U');
 }
 
+/**
+ * Menyiapkan event listener untuk area analisis teks.
+ */
 function initTextAnalysis() {
     const textInput = document.getElementById('text-to-analyze');
     const charCount = document.getElementById('char-count');
@@ -41,6 +53,9 @@ function initTextAnalysis() {
     });
 }
 
+/**
+ * Inisialisasi diagram lingkaran sentimen (hanya Positif & Negatif).
+ */
 function initSentimentChart() {
     const ctx = document.getElementById('sentiment-chart');
     if (!ctx) return null;
@@ -49,10 +64,10 @@ function initSentimentChart() {
     return new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Positif', 'Netral', 'Negatif'],
+            labels: ['Positif', 'Negatif'],
             datasets: [{
-                data: [1, 1, 1],
-                backgroundColor: [style.getPropertyValue('--positive').trim(), style.getPropertyValue('--neutral').trim(), style.getPropertyValue('--negative').trim()],
+                data: [50, 50], // Data awal
+                backgroundColor: [style.getPropertyValue('--positive').trim(), style.getPropertyValue('--negative').trim()],
                 borderColor: style.getPropertyValue('--bg').trim(),
                 borderWidth: 2,
             }]
@@ -64,11 +79,17 @@ function initSentimentChart() {
     });
 }
 
+/**
+ * Memuat dan menampilkan semua data awal dari store.
+ */
 function loadDashboardData() {
     updateStatsUI();
     updateAnalysisHistoryUI();
 }
 
+/**
+ * Menangani logika saat tombol "Analisis" diklik.
+ */
 async function handleAnalyzeText() {
     const textInput = document.getElementById('text-to-analyze');
     const text = textInput.value.trim();
@@ -82,29 +103,57 @@ async function handleAnalyzeText() {
     submitButton.disabled = true;
     submitButton.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menganalisis...`;
 
-    setTimeout(() => {
-        const dummyResult = {
-            sentiment: { type: Math.random() > 0.66 ? 'positive' : (Math.random() > 0.33 ? 'neutral' : 'negative'), score: Math.random() },
-            suggestion: "Mungkin bisa coba sampaikan seperti ini: 'Saya menghargai usahanya, namun ada beberapa hal yang perlu kita diskusikan lebih lanjut untuk perbaikan.'"
+    try {
+        const headers = getAuthHeaders();
+        if (!headers) {
+            showToast('Sesi tidak valid, silakan login ulang.', 'error');
+            setTimeout(() => window.location.href = '/pages/login.html', 1500);
+            return;
+        }
+
+        // Panggilan API ke backend Flask
+        const response = await fetch('http://localhost:5001/api/analyze', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({ text })
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.message || 'Analisis dari backend gagal');
+        }
+        
+        const newAnalysis = { 
+            id: `hist_${Date.now()}`, 
+            text, 
+            sentiment: result.sentiment, 
+            createdAt: new Date().toISOString() 
         };
         
-        const newAnalysis = { id: `hist_${Date.now()}`, text, ...dummyResult, createdAt: new Date().toISOString() };
-        
+        // Memanggil fungsi dari store.js untuk mengubah data terpusat
         addAnalysis(newAnalysis);
         
+        // Memperbarui semua bagian UI dengan data terbaru dari store
         updateAnalysisResultsUI(newAnalysis);
         updateAnalysisHistoryUI();           
         updateStatsUI();                     
         
-        showToast('Analisis selesai!', 'success');
-        
+        showToast('Analisis dari model Anda berhasil!', 'success');
+
+    } catch (error) {
+        showToast(error.message, 'error');
+    } finally {
         submitButton.disabled = false;
         submitButton.innerHTML = `<i class="fas fa-magic mr-2"></i> Analisis Sekarang`;
         textInput.value = ''; 
         document.getElementById('char-count').textContent = '0';
-    }, 1500);
+    }
 }
 
+/**
+ * Memperbarui UI dengan hasil analisis yang baru.
+ */
 function updateAnalysisResultsUI(data) {
     const resultsSection = document.getElementById('analysis-results');
     const sentimentResult = document.getElementById('sentiment-result');
@@ -122,40 +171,46 @@ function updateAnalysisResultsUI(data) {
     confidenceBar.style.width = `${scorePercent}%`;
     confidenceBar.style.backgroundColor = `var(--${sentimentType})`;
 
-    const icons = { positive: 'fa-smile-beam', neutral: 'fa-meh', negative: 'fa-frown' };
+    const icons = { positif: 'fa-smile-beam', negatif: 'fa-frown' };
     sentimentIconContainer.innerHTML = `<i class="fas ${icons[sentimentType]} text-3xl text-[var(--${sentimentType})]"></i>`;
 
-    if (sentimentType === 'negative' && data.suggestion) {
-        suggestionContainer.textContent = data.suggestion;
+    // Logika untuk saran kalimat akan kita tambahkan nanti dengan Gemini
+    if (sentimentType === 'negatif') {
+        suggestionContainer.textContent = "Saran kalimat akan diimplementasikan nanti.";
     } else {
         suggestionContainer.textContent = 'Teks Anda sudah baik! Tidak ada saran saat ini.';
     }
     resultsSection.classList.remove('hidden');
 }
 
+/**
+ * Memperbarui UI statistik dan diagram.
+ */
 function updateStatsUI() {
-    const stats = getStats();
+    const stats = getStats(); // Ambil data dari store
     if (!chartInstance || !stats) return;
 
-    document.getElementById('total-analyses').textContent = stats.totalAnalyses;
+    const totalAnalysesEl = document.getElementById('total-analyses');
+    if(totalAnalysesEl) totalAnalysesEl.textContent = stats.totalAnalyses;
     
-    const { positive, neutral, negative } = stats.sentimentDistribution;
-    const total = positive + neutral + negative || 1; 
+    const { positif = 0, negatif = 0 } = stats.sentimentDistribution;
+    const total = positif + negatif || 1; 
 
-    const positivePercent = (positive / total * 100);
-    const neutralPercent = (neutral / total * 100);
-    const negativePercent = (negative / total * 100);
+    const positivePercent = (positif / total * 100);
+    const negativePercent = (negatif / total * 100);
 
-    chartInstance.data.datasets[0].data = [positivePercent, neutralPercent, negativePercent];
+    chartInstance.data.datasets[0].data = [positivePercent, negativePercent];
     chartInstance.update();
 
     document.getElementById('chart-positive').textContent = `${positivePercent.toFixed(0)}%`;
-    document.getElementById('chart-neutral').textContent = `${neutralPercent.toFixed(0)}%`;
     document.getElementById('chart-negative').textContent = `${negativePercent.toFixed(0)}%`;
 }
 
+/**
+ * Memperbarui UI daftar riwayat terakhir di dasbor.
+ */
 function updateAnalysisHistoryUI() {
-    const history = getHistory();
+    const history = getHistory(); // Ambil data dari store
     const listElement = document.getElementById('recent-analyses');
     if (!listElement) return;
 
@@ -169,11 +224,11 @@ function updateAnalysisHistoryUI() {
     listElement.innerHTML = recentHistory.map(item => `
         <li class="py-3 flex items-center space-x-3">
             <span class="h-8 w-8 rounded-full flex items-center justify-center bg-[var(--${item.sentiment.type})] bg-opacity-20 flex-shrink-0">
-                <i class="fas ${item.sentiment.type === 'positive' ? 'fa-smile' : item.sentiment.type === 'negative' ? 'fa-frown' : 'fa-meh'} text-[var(--${item.sentiment.type})]"></i>
+                <i class="fas ${item.sentiment.type === 'positif' ? 'fa-smile' : 'fa-frown'} text-[var(--${item.sentiment.type})]"></i>
             </span>
             <div class="flex-1 min-w-0">
                 <p class="text-sm text-[var(--text)] truncate">${item.text}</p>
-                <p class="text-xs text-[var(--muted)]">${formatDate(item.createdAt)}</p>
+                <p class="text-xs text-[var(--muted)]">${formatDate(new Date(item.createdAt))}</p>
             </div>
         </li>
     `).join('');
