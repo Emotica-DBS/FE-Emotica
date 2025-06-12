@@ -1,96 +1,99 @@
-# Emotica - Text Sentiment Analysis Application
+#  Emotica – Aplikasi Analisis Emosi dari Teks
 
-Emotica is an intelligent web application designed to help users recognize and manage sentiment in digital communications. Using AI technology, Emotica analyzes text in real-time to provide deep understanding of emotional tone and suggests improvements for creating more positive and empathetic interactions.
+<div align="center">
+  <img src="https://github.com/Emotica-DBS/FE-Emotica/blob/main/public/assets/logo.png" alt="Emotica Logo" width="180" />
+</div>
 
-## ✨ Key Features
+**Emotica** adalah aplikasi web cerdas yang membantu pengguna memahami dan mengenali emosi dalam teks secara otomatis. Kami merancang antarmuka yang ringan, profesional, dan responsif agar kamu bisa lebih sadar dalam berkomunikasi digital, baik saat menulis postingan, membaca komentar, atau meninjau ulasan produk.
 
-- **Professional & Responsive Design**: Clean and modern interface across all devices
-- **Light & Dark Mode**: Comfortable visual experience with auto-saving theme support
-- **Instant Sentiment Analysis**: Get real-time sentiment analysis results (positive, negative, neutral)
-- **Interactive Dashboard**: View usage statistics and sentiment distribution charts
-- **Advanced Analysis History**: Manage your analysis history with search and filtering
-- **Pagination**: Easy navigation through extensive analysis history
-- **Modular Architecture**: Clean JavaScript code using ES6 Modules, ready for Vite bundling
+> 💡 *"Bantu generasi muda, content creator, dan pelaku digital menulis dengan lebih sadar dan penuh pertimbangan."*
 
-## 🛠️ Technologies Used
+---
 
-### Frontend
-- HTML5
-- CSS3 (with Tailwind CSS)
-- JavaScript (ES6+)
-- Chart.js for data visualization
-- Font Awesome for icons
+## ✨ Fitur Utama
 
-### Development
-- Vite as module bundler
-- Node.js & npm for dependency management
+- 🎨 **Desain Profesional & Responsif**  
+  Antarmuka modern yang nyaman digunakan di berbagai perangkat.
 
-## 📂 Project Structure
-```
-emotica/
-└── frontend/
-    ├── assets/
-    │   ├── favicon.png
-    │   ├── apple-touch-icon.png
-    │   └── ilustrasi.svg
-    │
-    ├── js/
-    │   ├── main.js
-    │   ├── auth.js
-    │   ├── utils.js
-    │   ├── login.js
-    │   ├── register.js
-    │   ├── dashboard.js
-    │   └── history.js
-    │
-    ├── pages/
-    │   ├── index.html
-    │   ├── about.html
-    │   ├── login.html
-    │   ├── register.html
-    │   ├── dashboard.html
-    │   └── history.html
-    │
-    └── style/
-        └── main.css
-```
+- 🌗 **Light & Dark Mode**  
+  Pilihan tema otomatis sesuai kenyamanan pengguna, disimpan secara lokal.
 
-## 🚀 Getting Started
+- ⚡ **Analisis Sentimen Instan**  
+  Tampilkan hasil analisis emosi secara real-time (positif, netral, negatif).
 
-Follow these steps to run the project locally:
+- 📊 **Dashboard Interaktif**  
+  Lihat distribusi emosi dan riwayat penggunaan dengan grafik dinamis.
 
-1. Clone the repository:
+- 🗂️ **Manajemen Riwayat Analisis**  
+  Cari dan filter hasil analisis kamu dengan mudah.
+
+- 🔁 **Navigasi Mudah dengan Pagination**  
+  Jelajahi riwayat panjang tanpa bingung.
+
+- 🧩 **Arsitektur Modular**  
+  Penulisan kode rapi dan scalable menggunakan ES6 Modules.
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+| Bagian        | Teknologi                   |
+| ------------- | --------------------------- |
+| UI/Frontend   | HTML5, Tailwind CSS, JS ES6 |
+| Visualisasi   | Chart.js                    |
+| Ikon          | Font Awesome                |
+| Build Tool    | Vite                        |
+| Dependency    | Node.js + npm               |
+
+---
+
+## 📂 Struktur Proyek
+
 ```bash
+FE-Emotica/
+├── assets/         # Logo & ilustrasi
+├── js/             # Script utama
+├── pages/          # Halaman HTML (index, login, dashboard, dsb.)
+└── style/          # Styling utama (Tailwind + custom)
+```
+
+## 🚀**Cara Menjalankan Proyek**
+Bayangkan Emotica seperti sebuah layanan digital:
+Frontend adalah kasir & layar utama tempat pelanggan berinteraksi. Mari kita mulai:
+
+Clone repositori:
+
+```bash
+
 git clone https://github.com/Emotica-DBS/FE-Emotica.git
-```
 
-2. Navigate to frontend directory:
+```
+Masuk ke direktori frontend:
 ```bash
-cd emotica/frontend
+cd FE-Emotica
+Install dependensi:
 ```
-
-3. Install dependencies:
+Install dependensi:
 ```bash
 npm install
 ```
-
-4. Run development server:
+jalankan
 ```bash
 npm run dev
+💡 Aplikasi akan berjalan di http://localhost:5173
 ```
 
-The application will be accessible at http://localhost:5173 (or another available port).
+👥 Tim Pengembang
+Proyek ini dikerjakan oleh tim lintas jalur dari program DBS Coding Camp 2025:
 
-## 🧑‍💻 Development Team
+Nama	Peran
+Erliandika Syahputra	Front-End Developer
+Fajri Nurhadi	Back-End Developer
+Addien Munadiya Yunadi	Machine Learning
+Mahendra Kirana M.B	Machine Learning
+Bivandira Aurel Maha Dewa	Machine Learning
 
-This project is a collaboration of dedicated team members:
+📄 Lisensi
+Proyek ini menggunakan lisensi MIT dan dibuat untuk keperluan pembelajaran dalam program MBKM DBS Coding Camp 2025. Lihat file LICENSE untuk informasi lebih lanjut.
 
-- **Addien Munadiya Yunadi** - Machine Learning
-- **Bivandira Aurel Maha Dewa** - Machine Learning
-- **Mahendra Kirana M.B** - Machine Learning
-- **Erliandika Syahputra** - Front-End Developer
-- **Fajri Nurhadi** - Back-End Developer
-
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Dibangun dengan semangat kolaborasi dan empati oleh tim Emotica ❤️
