@@ -125,16 +125,31 @@ body {
 6. Komponen Tabel & Riwayat
 -----------------------------
 */
+/* -----------------------------
+6. Komponen Tabel & Riwayat
+-----------------------------
+*/
 .progress-bar {
-    background-color: var(--border);
+    background-color: var(--bg-secondary);
     border-radius: 9999px;
     overflow: hidden;
+    height: 1rem;
+    width: 100%;
+    display: flex;
 }
 
 .progress-bar-inner {
     height: 100%;
+    width: 0;
     border-radius: 9999px;
-    transition: width 0.5s ease-in-out;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+.progress-bar-inner.positive {
+    background-color: var(--positive);
+}
+.progress-bar-inner.negative {
+    background-color: var(--negative);
 }
 
 .sentiment-tag {
@@ -176,4 +191,8 @@ body {
 .team-social-link i {
     font-size: 1.5rem; /* Ukuran ikon */
     transition: color 0.2s ease-in-out;
+}
+
+.team-social-link:hover i {
+    color: var(--accent);
 }

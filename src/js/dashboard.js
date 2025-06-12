@@ -164,26 +164,35 @@ function updateAnalysisResultsUI(data) {
     const sentimentIconContainer = document.getElementById('sentiment-icon');
     const confidenceBar = document.getElementById('confidence-bar');
     const confidencePercent = document.getElementById('confidence-percent');
-    const suggestionContainer = document.getElementById('suggestion-container');
 
     const scorePercent = Math.round(data.sentiment.score * 100);
     const sentimentType = data.sentiment.type;
 
+    // Show section first
+    resultsSection.classList.remove('hidden');
+
+    // Reset and set proper class for sentiment color
+    confidenceBar.className = 'progress-bar-inner';
+    confidenceBar.classList.add(sentimentType === 'positif' ? 'positive' : 'negative');
+    
+    // Reset width to trigger animation
+    confidenceBar.style.width = '0%';
+    
+    // Force reflow
+    void confidenceBar.offsetWidth;
+
+    // Update text content
     sentimentResult.textContent = `${sentimentType.charAt(0).toUpperCase() + sentimentType.slice(1)}`;
     confidencePercent.textContent = `${scorePercent}%`;
-    
-    confidenceBar.style.width = `${scorePercent}%`;
-    confidenceBar.style.backgroundColor = `var(--${sentimentType})`;
 
+    // Animate width
+    requestAnimationFrame(() => {
+        confidenceBar.style.width = `${scorePercent}%`;
+    });
+
+    // Update icon
     const icons = { positif: 'fa-smile-beam', negatif: 'fa-frown' };
     sentimentIconContainer.innerHTML = `<i class="fas ${icons[sentimentType]} text-3xl text-[var(--${sentimentType})]"></i>`;
-
-    if (sentimentType === 'negatif') {
-        suggestionContainer.textContent = "Saran kalimat akan diimplementasikan nanti.";
-    } else {
-        suggestionContainer.textContent = 'Teks Anda sudah baik! Tidak ada saran saat ini.';
-    }
-    resultsSection.classList.remove('hidden');
 }
 
 /**

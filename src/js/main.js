@@ -134,3 +134,29 @@ function initializeProfileDropdown() {
         }
     });
 }
+
+
+// Add password toggle functionality
+document.addEventListener('DOMContentLoaded', () => {
+    // Find all password toggle buttons
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+    
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            // Find the associated password input
+            const passwordInput = toggle.previousElementSibling;
+            const icon = toggle.querySelector('i');
+            
+            // Toggle password visibility
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+});

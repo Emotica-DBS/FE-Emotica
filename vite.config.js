@@ -14,7 +14,7 @@ export default defineConfig({
         dashboard: resolve(__dirname, 'src/pages/dashboard.html'),
         history: resolve(__dirname, 'src/pages/history.html'),
         login: resolve(__dirname, 'src/pages/login.html'),
-        register: resolve(__dirname, 'src/pages/register.html')
+        register: resolve(__dirname, 'src/pages/register.html'),
       }
     }
   }

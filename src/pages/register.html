@@ -108,14 +108,29 @@
                                 <i class="fas fa-envelope form-input-icon"></i>
                                 <input id="email-address" name="email" type="email" autocomplete="email" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Alamat Email">
                             </div>
-                            <div class="form-input-container">
-                                <i class="fas fa-lock form-input-icon"></i>
-                                <input id="password" name="password" type="password" autocomplete="new-password" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Kata Sandi">
-                            </div>
-                            <div class="form-input-container">
-                                <i class="fas fa-check-double form-input-icon"></i>
-                                <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required class="form-input appearance-none rounded-md relative block w-full px-3 py-3 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" placeholder="Konfirmasi Kata Sandi">
-                            </div>
+                            <div class="form-input-container relative">
+    <i class="fas fa-lock form-input-icon"></i>
+    <input id="password" name="password" type="password" autocomplete="new-password" required 
+        class="form-input appearance-none rounded-md relative block w-full px-3 py-3 pl-10 pr-10 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" 
+        placeholder="Kata Sandi">
+    <button type="button" 
+        class="password-toggle absolute inset-y-0 right-0 px-3 flex items-center text-[var(--muted)] hover:text-[var(--text)]" 
+        aria-label="Toggle password visibility">
+        <i class="fas fa-eye"></i>
+    </button>
+</div>
+
+                           <div class="form-input-container relative">
+    <i class="fas fa-check-double form-input-icon"></i>
+    <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required 
+        class="form-input appearance-none rounded-md relative block w-full px-3 py-3 pl-10 pr-10 border border-[var(--border)] bg-[var(--bg-secondary)] placeholder-[var(--muted)] text-[var(--text)] focus:outline-none focus:ring-[var(--accent)] focus:border-[var(--accent)] focus:z-10 sm:text-sm" 
+        placeholder="Konfirmasi Kata Sandi">
+    <button type="button" 
+        class="password-toggle absolute inset-y-0 right-0 px-3 flex items-center text-[var(--muted)] hover:text-[var(--text)]" 
+        aria-label="Toggle password visibility">
+        <i class="fas fa-eye"></i>
+    </button>
+</div>
                             <div class="flex items-start">
                                  <div class="flex items-center h-5">
                                     <input id="terms" name="terms" type="checkbox" required class="h-4 w-4 text-[var(--accent)] focus:ring-[var(--accent)] border-[var(--border)] rounded">
